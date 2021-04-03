@@ -10,20 +10,16 @@ using System.Windows.Forms;
 
 namespace Airoport
 {
-    public partial class Form1 : Form
+    public partial class MainDisplayForm : Form
     {
-        public Form1()
+        public MainDisplayForm()
         {
             InitializeComponent();
-            dtpStartTime.CustomFormat = "hh:mm";
         }
 
-        private void bStart_Click(object sender, EventArgs e)
+        private void MainDisplayForm_Load(object sender, EventArgs e)
         {
-            MainDisplayForm f = new MainDisplayForm();
-            if (f.ShowDialog() == DialogResult.OK)
-            { 
-            }
+
         }
     }
 }

@@ -45,6 +45,7 @@
             this.nUDStep = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.bStart = new System.Windows.Forms.Button();
+            this.dtpStartTime = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.nUDCountRunway)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDTimeInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMin)).BeginInit();
@@ -193,12 +194,23 @@
             this.bStart.TabIndex = 18;
             this.bStart.Text = "Старт";
             this.bStart.UseVisualStyleBackColor = true;
+            this.bStart.Click += new System.EventHandler(this.bStart_Click);
+            // 
+            // dtpStartTime
+            // 
+            this.dtpStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpStartTime.Location = new System.Drawing.Point(217, 12);
+            this.dtpStartTime.Name = "dtpStartTime";
+            this.dtpStartTime.ShowUpDown = true;
+            this.dtpStartTime.Size = new System.Drawing.Size(200, 22);
+            this.dtpStartTime.TabIndex = 19;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(422, 450);
+            this.Controls.Add(this.dtpStartTime);
             this.Controls.Add(this.bStart);
             this.Controls.Add(this.nUDStep);
             this.Controls.Add(this.label8);
@@ -216,7 +228,10 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbShedule);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Стартовое окно";
             ((System.ComponentModel.ISupportInitialize)(this.nUDCountRunway)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDTimeInterval)).EndInit();
@@ -248,6 +263,7 @@
         private System.Windows.Forms.NumericUpDown nUDStep;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button bStart;
+        private System.Windows.Forms.DateTimePicker dtpStartTime;
     }
 }
 
