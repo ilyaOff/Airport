@@ -21,9 +21,9 @@ namespace Airoport
         private void bStart_Click(object sender, EventArgs e)
         {
             MainDisplayForm f = new MainDisplayForm();
-            if (f.ShowDialog() == DialogResult.OK)
-            { 
-            }
+            f.nUDStep.Value = nUDStep.Value;
+            f.ShowDialog();
+            
         }
     }
 }

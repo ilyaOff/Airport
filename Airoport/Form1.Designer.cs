@@ -41,7 +41,6 @@
             this.nUDDelayMax = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.nUDStartTime = new System.Windows.Forms.NumericUpDown();
             this.nUDStep = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.bStart = new System.Windows.Forms.Button();
@@ -50,22 +49,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUDTimeInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUDStartTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).BeginInit();
             this.SuspendLayout();
             // 
             // tbShedule
             // 
-            this.tbShedule.Location = new System.Drawing.Point(56, 82);
+            this.tbShedule.Location = new System.Drawing.Point(47, 62);
             this.tbShedule.Name = "tbShedule";
-            this.tbShedule.Size = new System.Drawing.Size(100, 22);
+            this.tbShedule.Size = new System.Drawing.Size(314, 22);
             this.tbShedule.TabIndex = 0;
             this.tbShedule.Text = "Путь до файла";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 49);
+            this.label1.Location = new System.Drawing.Point(44, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(91, 17);
             this.label1.TabIndex = 1;
@@ -74,7 +72,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(53, 126);
+            this.label2.Location = new System.Drawing.Point(44, 106);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(133, 17);
             this.label2.TabIndex = 2;
@@ -82,7 +80,7 @@
             // 
             // nUDCountRunway
             // 
-            this.nUDCountRunway.Location = new System.Drawing.Point(56, 146);
+            this.nUDCountRunway.Location = new System.Drawing.Point(47, 126);
             this.nUDCountRunway.Name = "nUDCountRunway";
             this.nUDCountRunway.Size = new System.Drawing.Size(120, 22);
             this.nUDCountRunway.TabIndex = 3;
@@ -90,7 +88,7 @@
             // cbSepRunway
             // 
             this.cbSepRunway.AutoSize = true;
-            this.cbSepRunway.Location = new System.Drawing.Point(217, 147);
+            this.cbSepRunway.Location = new System.Drawing.Point(208, 127);
             this.cbSepRunway.Name = "cbSepRunway";
             this.cbSepRunway.Size = new System.Drawing.Size(153, 21);
             this.cbSepRunway.TabIndex = 4;
@@ -99,7 +97,7 @@
             // 
             // nUDTimeInterval
             // 
-            this.nUDTimeInterval.Location = new System.Drawing.Point(56, 222);
+            this.nUDTimeInterval.Location = new System.Drawing.Point(47, 202);
             this.nUDTimeInterval.Name = "nUDTimeInterval";
             this.nUDTimeInterval.Size = new System.Drawing.Size(120, 22);
             this.nUDTimeInterval.TabIndex = 5;
@@ -107,7 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(53, 191);
+            this.label3.Location = new System.Drawing.Point(44, 171);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(275, 17);
             this.label3.TabIndex = 6;
@@ -116,7 +114,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(53, 261);
+            this.label4.Location = new System.Drawing.Point(44, 241);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(194, 17);
             this.label4.TabIndex = 9;
@@ -125,7 +123,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(53, 294);
+            this.label5.Location = new System.Drawing.Point(44, 274);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 17);
             this.label5.TabIndex = 10;
@@ -133,14 +131,14 @@
             // 
             // nUDDelayMin
             // 
-            this.nUDDelayMin.Location = new System.Drawing.Point(85, 291);
+            this.nUDDelayMin.Location = new System.Drawing.Point(76, 271);
             this.nUDDelayMin.Name = "nUDDelayMin";
             this.nUDDelayMin.Size = new System.Drawing.Size(45, 22);
             this.nUDDelayMin.TabIndex = 11;
             // 
             // nUDDelayMax
             // 
-            this.nUDDelayMax.Location = new System.Drawing.Point(192, 293);
+            this.nUDDelayMax.Location = new System.Drawing.Point(183, 273);
             this.nUDDelayMax.Name = "nUDDelayMax";
             this.nUDDelayMax.Size = new System.Drawing.Size(45, 22);
             this.nUDDelayMax.TabIndex = 13;
@@ -148,7 +146,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(160, 296);
+            this.label6.Location = new System.Drawing.Point(151, 276);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(27, 17);
             this.label6.TabIndex = 12;
@@ -157,22 +155,15 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(53, 334);
+            this.label7.Location = new System.Drawing.Point(44, 314);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(126, 17);
             this.label7.TabIndex = 14;
             this.label7.Text = "Стартовое время:";
             // 
-            // nUDStartTime
-            // 
-            this.nUDStartTime.Location = new System.Drawing.Point(192, 332);
-            this.nUDStartTime.Name = "nUDStartTime";
-            this.nUDStartTime.Size = new System.Drawing.Size(120, 22);
-            this.nUDStartTime.TabIndex = 15;
-            // 
             // nUDStep
             // 
-            this.nUDStep.Location = new System.Drawing.Point(91, 364);
+            this.nUDStep.Location = new System.Drawing.Point(82, 344);
             this.nUDStep.Name = "nUDStep";
             this.nUDStep.Size = new System.Drawing.Size(120, 22);
             this.nUDStep.TabIndex = 17;
@@ -180,7 +171,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(53, 366);
+            this.label8.Location = new System.Drawing.Point(44, 346);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(32, 17);
             this.label8.TabIndex = 16;
@@ -188,9 +179,9 @@
             // 
             // bStart
             // 
-            this.bStart.Location = new System.Drawing.Point(56, 408);
+            this.bStart.Location = new System.Drawing.Point(147, 392);
             this.bStart.Name = "bStart";
-            this.bStart.Size = new System.Drawing.Size(131, 23);
+            this.bStart.Size = new System.Drawing.Size(151, 46);
             this.bStart.TabIndex = 18;
             this.bStart.Text = "Старт";
             this.bStart.UseVisualStyleBackColor = true;
@@ -199,22 +190,21 @@
             // dtpStartTime
             // 
             this.dtpStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpStartTime.Location = new System.Drawing.Point(217, 12);
+            this.dtpStartTime.Location = new System.Drawing.Point(183, 314);
             this.dtpStartTime.Name = "dtpStartTime";
             this.dtpStartTime.ShowUpDown = true;
-            this.dtpStartTime.Size = new System.Drawing.Size(200, 22);
+            this.dtpStartTime.Size = new System.Drawing.Size(178, 22);
             this.dtpStartTime.TabIndex = 19;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 450);
+            this.ClientSize = new System.Drawing.Size(428, 450);
             this.Controls.Add(this.dtpStartTime);
             this.Controls.Add(this.bStart);
             this.Controls.Add(this.nUDStep);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.nUDStartTime);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.nUDDelayMax);
             this.Controls.Add(this.label6);
@@ -237,7 +227,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUDTimeInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUDStartTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -259,7 +248,6 @@
         private System.Windows.Forms.NumericUpDown nUDDelayMax;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown nUDStartTime;
         private System.Windows.Forms.NumericUpDown nUDStep;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button bStart;
