@@ -15,6 +15,23 @@ namespace Airoport
         AirType airType;
         Direction dir;
 
+        Airplane airplane;
 
+        public Request(int SchedueTime, string AirplaneName, string CompanyName,
+                       Direction dir, AirType airType, int EventTime)
+        {
+            this.TimeSchedue = SchedueTime;
+            this.TimeEvent = EventTime;
+            this.TimeReal = -1;
+
+            this.CompanyName = CompanyName;
+            this.AirplaneName = AirplaneName;            
+            this.airType = airType;
+            this.dir = dir;
+        }
+        public void Tick()
+        { 
+        
+        }
     }
 }

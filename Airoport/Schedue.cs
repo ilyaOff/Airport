@@ -8,6 +8,11 @@ namespace Airoport
 {
     class Schedue
     {
+        Random rnd;
         List<Request> requests;
+        public void Tick()
+        { 
+        
+        }
     }
 }

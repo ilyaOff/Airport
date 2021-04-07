@@ -8,10 +8,18 @@ namespace Airoport
 {    
     class Airport
     {
-        int TimeInterval;
-        //int DelayMin, DelayMax;
+        int TimeInterval;      
         bool ModSepRunway;
-        Runway runway;
-        
+
+        Runway[] runway;
+        Schedue schedue;
+
+        Queue<Airplane> TakeoffQueue;
+        Queue<Airplane> LandingQueue;
+
+        Random rnd;//А нужен ли?
+        public void Tick()
+        { 
+        }
     }
 }

@@ -8,5 +8,14 @@ namespace Airoport
 {
     class Runway
     {
+        bool forTakeoff = true;
+        bool forLanding = true;
+
+        int DelayMin, DelayMax;//отклонение от расписания
+        Airplane tmpAirplane;
+        public void Tick()
+        { 
+        
+        }
     }
 }
