@@ -7,8 +7,19 @@ using System.Threading.Tasks;
 namespace Airoport
 {
     class Experiment
-    {       
-        int TimeStep,  CurrentTime = 0;
+    {
+        int timeStep = 5;
+        int StopTime = 24 * 60;//конец моделирования
+        public int TimeStep
+        {
+            get { return timeStep; }
+            set
+            {
+                if (value > 5 && value < 30)
+                    timeStep = value;
+            }
+        }
+        public int CurrentTime { get; private set; } = 0;
         //int StartTime;
        // int DelayMin, DelayMax;
 
@@ -44,7 +55,32 @@ namespace Airoport
             return res;
         }
         public void Tick()
-        { 
+        {            
+            if (CurrentTime < StopTime)
+            {
+                CurrentTime++;
+                airport.Tick();
+            }
+            else
+            { 
+                
+            }
+               
+        }
+
+        public void NextStep()
+        {
+            for (int i = 0; i < TimeStep; i++)
+            {
+                Tick();
+            }            
+        }
+        public void ToEnd()
+        {
+            while (CurrentTime < 24 * 60)
+            {
+                Tick();
+            }
         }
     }
 }

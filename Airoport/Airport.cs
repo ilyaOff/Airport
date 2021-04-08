@@ -57,6 +57,7 @@ namespace Airoport
         public void Tick()
         {
             //DistributionRunways()
+            schedue.Tick();
             for (int i = 0; i < CountRunway; i++)
             {
                 runway[i].Tick();

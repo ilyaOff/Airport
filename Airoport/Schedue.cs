@@ -9,7 +9,10 @@ namespace Airoport
     class Schedue
     {
         //Random rnd;
-        Experiment experiment;// для генерации числа из нормального распределения
+
+        //для генерации числа из нормального распределения и для значения мирового времени
+        Experiment experiment;
+
         List<Request> requests;
 
         public Schedue(string fileName, Experiment experiment, int StartTime)
@@ -19,9 +22,9 @@ namespace Airoport
             //StartTime - для создания списка 
             //experiment.GenerateNormalDistribution();
         }
-        public void Tick(int WorldTime)
-        { 
-            //requests[i].Tick(WorldTime)
+        public void Tick()
+        {
+            //requests[i].Tick(experiment.CurrentTime)
         }
     }
 }

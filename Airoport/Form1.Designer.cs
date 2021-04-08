@@ -65,25 +65,40 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(44, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 17);
+            this.label1.Size = new System.Drawing.Size(87, 17);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Расписание:";
+            this.label1.Text = "Расписание";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(44, 106);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(133, 17);
+            this.label2.Size = new System.Drawing.Size(129, 17);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Количество полос:";
+            this.label2.Text = "Количество полос";
             // 
             // nUDCountRunway
             // 
             this.nUDCountRunway.Location = new System.Drawing.Point(47, 126);
+            this.nUDCountRunway.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nUDCountRunway.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.nUDCountRunway.Name = "nUDCountRunway";
             this.nUDCountRunway.Size = new System.Drawing.Size(120, 22);
             this.nUDCountRunway.TabIndex = 3;
+            this.nUDCountRunway.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // cbSepRunway
             // 
@@ -98,6 +113,11 @@
             // nUDTimeInterval
             // 
             this.nUDTimeInterval.Location = new System.Drawing.Point(47, 202);
+            this.nUDTimeInterval.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.nUDTimeInterval.Name = "nUDTimeInterval";
             this.nUDTimeInterval.Size = new System.Drawing.Size(120, 22);
             this.nUDTimeInterval.TabIndex = 5;
@@ -132,6 +152,16 @@
             // nUDDelayMin
             // 
             this.nUDDelayMin.Location = new System.Drawing.Point(76, 271);
+            this.nUDDelayMin.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.nUDDelayMin.Minimum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            -2147483648});
             this.nUDDelayMin.Name = "nUDDelayMin";
             this.nUDDelayMin.Size = new System.Drawing.Size(45, 22);
             this.nUDDelayMin.TabIndex = 11;
@@ -164,9 +194,24 @@
             // nUDStep
             // 
             this.nUDStep.Location = new System.Drawing.Point(82, 344);
+            this.nUDStep.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nUDStep.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.nUDStep.Name = "nUDStep";
             this.nUDStep.Size = new System.Drawing.Size(120, 22);
             this.nUDStep.TabIndex = 17;
+            this.nUDStep.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             // 
             // label8
             // 
