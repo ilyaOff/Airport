@@ -11,7 +11,7 @@ namespace Airoport
         bool forTakeoff = true;
         bool forLanding = true;
 
-        int DelayMin, DelayMax;//отклонение от расписания
+        int DelayMin, DelayMax;//отклонение от расписания?????
         int TimeInterval, CurrentTimeInterval = 0;
         Airplane tmpAirplane = null;
 

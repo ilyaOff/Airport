@@ -11,13 +11,13 @@ namespace Airoport
         //Random rnd;
 
         //для генерации числа из нормального распределения и для значения мирового времени
-        Experiment experiment;
+        //Experiment experiment;
 
         List<Request> requests;
 
         public Schedue(string fileName, Experiment experiment, int StartTime)
         {
-            this.experiment = experiment;
+            //this.experiment = experiment;
             requests = new List<Request>();
             //StartTime - для создания списка 
             //experiment.GenerateNormalDistribution();

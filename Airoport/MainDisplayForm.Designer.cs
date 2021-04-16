@@ -28,18 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea15 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pRunways = new System.Windows.Forms.Panel();
-            this.chRunway1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pRunway0 = new System.Windows.Forms.Panel();
             this.pAirQueue = new System.Windows.Forms.Panel();
             this.LVSchedue = new System.Windows.Forms.ListView();
             this.chRanway = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,11 +48,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.bEnd = new System.Windows.Forms.Button();
             this.bNextStep = new System.Windows.Forms.Button();
-            this.bStop = new System.Windows.Forms.Button();
+            this.bPause = new System.Windows.Forms.Button();
             this.bExit = new System.Windows.Forms.Button();
             this.gbButtons = new System.Windows.Forms.GroupBox();
-            this.pRunway1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.chDelay = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -67,16 +62,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.pRunway2 = new System.Windows.Forms.Panel();
-            this.chRunway2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pRunways.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chRunway1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chCountRequestDone)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).BeginInit();
             this.gbButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chAvgRunwayWork)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chRunway2)).BeginInit();
             this.SuspendLayout();
             // 
             // pRunways
@@ -84,32 +76,23 @@
             this.pRunways.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pRunways.AutoScroll = true;
+            this.pRunways.AutoScrollMinSize = new System.Drawing.Size(500, 340);
             this.pRunways.BackColor = System.Drawing.SystemColors.Highlight;
-            this.pRunways.Controls.Add(this.chRunway2);
-            this.pRunways.Controls.Add(this.panel2);
-            this.pRunways.Controls.Add(this.pRunway1);
-            this.pRunways.Controls.Add(this.chRunway1);
-            this.pRunways.Controls.Add(this.pRunway2);
+            this.pRunways.Controls.Add(this.pRunway0);
             this.pRunways.Location = new System.Drawing.Point(360, 15);
             this.pRunways.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pRunways.Name = "pRunways";
             this.pRunways.Size = new System.Drawing.Size(717, 340);
             this.pRunways.TabIndex = 0;
             // 
-            // chRunway1
+            // pRunway0
             // 
-            this.chRunway1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.chRunway1.ChartAreas.Add(chartArea2);
-            this.chRunway1.Location = new System.Drawing.Point(485, 2);
-            this.chRunway1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chRunway1.Name = "chRunway1";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.chRunway1.Series.Add(series2);
-            this.chRunway1.Size = new System.Drawing.Size(229, 130);
-            this.chRunway1.TabIndex = 0;
-            this.chRunway1.Text = "chart1";
+            this.pRunway0.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pRunway0.Location = new System.Drawing.Point(34, 3);
+            this.pRunway0.Name = "pRunway0";
+            this.pRunway0.Size = new System.Drawing.Size(109, 319);
+            this.pRunway0.TabIndex = 2;
             // 
             // pAirQueue
             // 
@@ -161,21 +144,21 @@
             // chCountRequestDone
             // 
             this.chCountRequestDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea3.Name = "ChartArea1";
-            this.chCountRequestDone.ChartAreas.Add(chartArea3);
+            chartArea13.Name = "ChartArea1";
+            this.chCountRequestDone.ChartAreas.Add(chartArea13);
             this.chCountRequestDone.Location = new System.Drawing.Point(357, 390);
             this.chCountRequestDone.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chCountRequestDone.Name = "chCountRequestDone";
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "Series1";
-            this.chCountRequestDone.Series.Add(series3);
+            series13.ChartArea = "ChartArea1";
+            series13.Name = "Series1";
+            this.chCountRequestDone.Series.Add(series13);
             this.chCountRequestDone.Size = new System.Drawing.Size(226, 130);
             this.chCountRequestDone.TabIndex = 4;
             this.chCountRequestDone.Text = "chart2";
             // 
             // nUDStep
             // 
-            this.nUDStep.Location = new System.Drawing.Point(9, 46);
+            this.nUDStep.Location = new System.Drawing.Point(171, 18);
             this.nUDStep.Maximum = new decimal(new int[] {
             30,
             0,
@@ -200,36 +183,36 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 18);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(32, 17);
+            this.label8.Size = new System.Drawing.Size(150, 17);
             this.label8.TabIndex = 18;
-            this.label8.Text = "Шаг";
+            this.label8.Text = "Шаг, от 5 до 30 минут";
             // 
             // bEnd
             // 
-            this.bEnd.Location = new System.Drawing.Point(218, 16);
+            this.bEnd.Location = new System.Drawing.Point(161, 43);
             this.bEnd.Name = "bEnd";
-            this.bEnd.Size = new System.Drawing.Size(74, 52);
+            this.bEnd.Size = new System.Drawing.Size(101, 52);
             this.bEnd.TabIndex = 20;
             this.bEnd.Text = "До конца";
             this.bEnd.UseVisualStyleBackColor = true;
             // 
             // bNextStep
             // 
-            this.bNextStep.Location = new System.Drawing.Point(106, 16);
+            this.bNextStep.Location = new System.Drawing.Point(9, 43);
             this.bNextStep.Name = "bNextStep";
-            this.bNextStep.Size = new System.Drawing.Size(106, 52);
+            this.bNextStep.Size = new System.Drawing.Size(124, 52);
             this.bNextStep.TabIndex = 21;
             this.bNextStep.Text = "Следующий шаг";
             this.bNextStep.UseVisualStyleBackColor = true;
             // 
-            // bStop
+            // bPause
             // 
-            this.bStop.Location = new System.Drawing.Point(9, 97);
-            this.bStop.Name = "bStop";
-            this.bStop.Size = new System.Drawing.Size(101, 52);
-            this.bStop.TabIndex = 22;
-            this.bStop.Text = "Закончить";
-            this.bStop.UseVisualStyleBackColor = true;
+            this.bPause.Location = new System.Drawing.Point(9, 97);
+            this.bPause.Name = "bPause";
+            this.bPause.Size = new System.Drawing.Size(124, 52);
+            this.bPause.TabIndex = 22;
+            this.bPause.Text = "Прервать моделирование";
+            this.bPause.UseVisualStyleBackColor = true;
             // 
             // bExit
             // 
@@ -243,33 +226,17 @@
             // gbButtons
             // 
             this.gbButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbButtons.Controls.Add(this.label8);
             this.gbButtons.Controls.Add(this.bExit);
             this.gbButtons.Controls.Add(this.nUDStep);
-            this.gbButtons.Controls.Add(this.bStop);
+            this.gbButtons.Controls.Add(this.bPause);
             this.gbButtons.Controls.Add(this.bEnd);
             this.gbButtons.Controls.Add(this.bNextStep);
+            this.gbButtons.Controls.Add(this.label8);
             this.gbButtons.Location = new System.Drawing.Point(15, 425);
             this.gbButtons.Name = "gbButtons";
             this.gbButtons.Size = new System.Drawing.Size(293, 178);
             this.gbButtons.TabIndex = 24;
             this.gbButtons.TabStop = false;
-            // 
-            // pRunway1
-            // 
-            this.pRunway1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pRunway1.Location = new System.Drawing.Point(134, 41);
-            this.pRunway1.Name = "pRunway1";
-            this.pRunway1.Size = new System.Drawing.Size(328, 91);
-            this.pRunway1.TabIndex = 1;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel2.Location = new System.Drawing.Point(34, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(109, 319);
-            this.panel2.TabIndex = 2;
             // 
             // label1
             // 
@@ -294,14 +261,14 @@
             // chDelay
             // 
             this.chDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea4.Name = "ChartArea1";
-            this.chDelay.ChartAreas.Add(chartArea4);
+            chartArea14.Name = "ChartArea1";
+            this.chDelay.ChartAreas.Add(chartArea14);
             this.chDelay.Location = new System.Drawing.Point(598, 390);
             this.chDelay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chDelay.Name = "chDelay";
-            series4.ChartArea = "ChartArea1";
-            series4.Name = "Series1";
-            this.chDelay.Series.Add(series4);
+            series14.ChartArea = "ChartArea1";
+            series14.Name = "Series1";
+            this.chDelay.Series.Add(series14);
             this.chDelay.Size = new System.Drawing.Size(226, 130);
             this.chDelay.TabIndex = 26;
             this.chDelay.Text = "chart1";
@@ -319,14 +286,14 @@
             // chAvgRunwayWork
             // 
             this.chAvgRunwayWork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea5.Name = "ChartArea1";
-            this.chAvgRunwayWork.ChartAreas.Add(chartArea5);
+            chartArea15.Name = "ChartArea1";
+            this.chAvgRunwayWork.ChartAreas.Add(chartArea15);
             this.chAvgRunwayWork.Location = new System.Drawing.Point(839, 390);
             this.chAvgRunwayWork.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chAvgRunwayWork.Name = "chAvgRunwayWork";
-            series5.ChartArea = "ChartArea1";
-            series5.Name = "Series1";
-            this.chAvgRunwayWork.Series.Add(series5);
+            series15.ChartArea = "ChartArea1";
+            series15.Name = "Series1";
+            this.chAvgRunwayWork.Series.Add(series15);
             this.chAvgRunwayWork.Size = new System.Drawing.Size(226, 130);
             this.chAvgRunwayWork.TabIndex = 28;
             this.chAvgRunwayWork.Text = "Средняя занятость полос";
@@ -385,28 +352,9 @@
             this.label6.TabIndex = 34;
             this.label6.Text = "Длина очереди на взлёт";
             // 
-            // pRunway2
+            // timer1
             // 
-            this.pRunway2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pRunway2.Location = new System.Drawing.Point(134, 189);
-            this.pRunway2.Name = "pRunway2";
-            this.pRunway2.Size = new System.Drawing.Size(328, 91);
-            this.pRunway2.TabIndex = 4;
-            // 
-            // chRunway2
-            // 
-            this.chRunway2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.Name = "ChartArea1";
-            this.chRunway2.ChartAreas.Add(chartArea1);
-            this.chRunway2.Location = new System.Drawing.Point(485, 167);
-            this.chRunway2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chRunway2.Name = "chRunway2";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.chRunway2.Series.Add(series1);
-            this.chRunway2.Size = new System.Drawing.Size(229, 130);
-            this.chRunway2.TabIndex = 3;
-            this.chRunway2.Text = "chart1";
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // MainDisplayForm
             // 
@@ -435,14 +383,12 @@
             this.Text = "Моделирование";
             this.Load += new System.EventHandler(this.MainDisplayForm_Load);
             this.pRunways.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chRunway1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chCountRequestDone)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).EndInit();
             this.gbButtons.ResumeLayout(false);
             this.gbButtons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chAvgRunwayWork)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chRunway2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -451,7 +397,6 @@
         #endregion
 
         private System.Windows.Forms.Panel pRunways;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chRunway1;
         private System.Windows.Forms.Panel pAirQueue;
         private System.Windows.Forms.ListView LVSchedue;
         private System.Windows.Forms.ColumnHeader chRanway;
@@ -462,12 +407,10 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button bEnd;
         private System.Windows.Forms.Button bNextStep;
-        private System.Windows.Forms.Button bStop;
+        private System.Windows.Forms.Button bPause;
         private System.Windows.Forms.Button bExit;
         private System.Windows.Forms.GroupBox gbButtons;
-        internal System.Windows.Forms.NumericUpDown nUDStep;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel pRunway1;
+        private System.Windows.Forms.Panel pRunway0;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chDelay;
@@ -479,7 +422,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chRunway2;
-        private System.Windows.Forms.Panel pRunway2;
+        private System.Windows.Forms.NumericUpDown nUDStep;
+        private System.Windows.Forms.Timer timer1;
     }
 }

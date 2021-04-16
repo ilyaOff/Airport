@@ -45,18 +45,23 @@
             this.label8 = new System.Windows.Forms.Label();
             this.bStart = new System.Windows.Forms.Button();
             this.dtpStartTime = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
+            this.nUDCountLandingRunways = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nUDCountRunway)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDTimeInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUDCountLandingRunways)).BeginInit();
             this.SuspendLayout();
             // 
             // tbShedule
             // 
             this.tbShedule.Location = new System.Drawing.Point(47, 62);
             this.tbShedule.Name = "tbShedule";
-            this.tbShedule.Size = new System.Drawing.Size(314, 22);
+            this.tbShedule.Size = new System.Drawing.Size(240, 22);
             this.tbShedule.TabIndex = 0;
             this.tbShedule.Text = "Путь до файла";
             // 
@@ -74,9 +79,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(44, 106);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 17);
+            this.label2.Size = new System.Drawing.Size(210, 17);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Количество полос";
+            this.label2.Text = "Количество полос (от 2 до 10)";
             // 
             // nUDCountRunway
             // 
@@ -95,37 +100,39 @@
             this.nUDCountRunway.Size = new System.Drawing.Size(120, 22);
             this.nUDCountRunway.TabIndex = 3;
             this.nUDCountRunway.Value = new decimal(new int[] {
-            2,
+            4,
             0,
             0,
             0});
+            this.nUDCountRunway.ValueChanged += new System.EventHandler(this.nUDCountRunway_ValueChanged);
             // 
             // cbSepRunway
             // 
             this.cbSepRunway.AutoSize = true;
-            this.cbSepRunway.Location = new System.Drawing.Point(208, 127);
+            this.cbSepRunway.Location = new System.Drawing.Point(47, 164);
             this.cbSepRunway.Name = "cbSepRunway";
             this.cbSepRunway.Size = new System.Drawing.Size(153, 21);
             this.cbSepRunway.TabIndex = 4;
             this.cbSepRunway.Text = "Разделение полос";
             this.cbSepRunway.UseVisualStyleBackColor = true;
+            this.cbSepRunway.CheckedChanged += new System.EventHandler(this.cbSepRunway_CheckedChanged);
             // 
             // nUDTimeInterval
             // 
-            this.nUDTimeInterval.Location = new System.Drawing.Point(47, 202);
+            this.nUDTimeInterval.Location = new System.Drawing.Point(506, 57);
             this.nUDTimeInterval.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
             this.nUDTimeInterval.Name = "nUDTimeInterval";
-            this.nUDTimeInterval.Size = new System.Drawing.Size(120, 22);
+            this.nUDTimeInterval.Size = new System.Drawing.Size(136, 22);
             this.nUDTimeInterval.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(44, 171);
+            this.label3.Location = new System.Drawing.Point(351, 29);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(275, 17);
             this.label3.TabIndex = 6;
@@ -134,16 +141,16 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(44, 241);
+            this.label4.Location = new System.Drawing.Point(351, 99);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(194, 17);
+            this.label4.Size = new System.Drawing.Size(343, 17);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Отклонение от расписания:";
+            this.label4.Text = "Отклонение от расписания (от -120 до 120 минут)";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(44, 274);
+            this.label5.Location = new System.Drawing.Point(351, 132);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 17);
             this.label5.TabIndex = 10;
@@ -151,7 +158,7 @@
             // 
             // nUDDelayMin
             // 
-            this.nUDDelayMin.Location = new System.Drawing.Point(76, 271);
+            this.nUDDelayMin.Location = new System.Drawing.Point(383, 129);
             this.nUDDelayMin.Maximum = new decimal(new int[] {
             120,
             0,
@@ -168,7 +175,12 @@
             // 
             // nUDDelayMax
             // 
-            this.nUDDelayMax.Location = new System.Drawing.Point(183, 273);
+            this.nUDDelayMax.Location = new System.Drawing.Point(490, 131);
+            this.nUDDelayMax.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
             this.nUDDelayMax.Name = "nUDDelayMax";
             this.nUDDelayMax.Size = new System.Drawing.Size(45, 22);
             this.nUDDelayMax.TabIndex = 13;
@@ -176,7 +188,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(151, 276);
+            this.label6.Location = new System.Drawing.Point(458, 134);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(27, 17);
             this.label6.TabIndex = 12;
@@ -185,15 +197,15 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(44, 314);
+            this.label7.Location = new System.Drawing.Point(351, 172);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(126, 17);
+            this.label7.Size = new System.Drawing.Size(122, 17);
             this.label7.TabIndex = 14;
-            this.label7.Text = "Стартовое время:";
+            this.label7.Text = "Стартовое время";
             // 
             // nUDStep
             // 
-            this.nUDStep.Location = new System.Drawing.Point(82, 344);
+            this.nUDStep.Location = new System.Drawing.Point(506, 205);
             this.nUDStep.Maximum = new decimal(new int[] {
             30,
             0,
@@ -205,7 +217,7 @@
             0,
             0});
             this.nUDStep.Name = "nUDStep";
-            this.nUDStep.Size = new System.Drawing.Size(120, 22);
+            this.nUDStep.Size = new System.Drawing.Size(136, 22);
             this.nUDStep.TabIndex = 17;
             this.nUDStep.Value = new decimal(new int[] {
             5,
@@ -216,15 +228,16 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(44, 346);
+            this.label8.Location = new System.Drawing.Point(351, 204);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(32, 17);
+            this.label8.Size = new System.Drawing.Size(150, 17);
             this.label8.TabIndex = 16;
-            this.label8.Text = "Шаг";
+            this.label8.Text = "Шаг, от 5 до 30 минут";
             // 
             // bStart
             // 
-            this.bStart.Location = new System.Drawing.Point(147, 392);
+            this.bStart.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.bStart.Location = new System.Drawing.Point(277, 270);
             this.bStart.Name = "bStart";
             this.bStart.Size = new System.Drawing.Size(151, 46);
             this.bStart.TabIndex = 18;
@@ -235,17 +248,72 @@
             // dtpStartTime
             // 
             this.dtpStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpStartTime.Location = new System.Drawing.Point(183, 314);
+            this.dtpStartTime.Location = new System.Drawing.Point(490, 172);
             this.dtpStartTime.Name = "dtpStartTime";
             this.dtpStartTime.ShowUpDown = true;
-            this.dtpStartTime.Size = new System.Drawing.Size(178, 22);
+            this.dtpStartTime.Size = new System.Drawing.Size(152, 22);
             this.dtpStartTime.TabIndex = 19;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(351, 59);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(122, 17);
+            this.label9.TabIndex = 20;
+            this.label9.Text = " от 0 до 10 минут";
+            // 
+            // nUDCountLandingRunways
+            // 
+            this.nUDCountLandingRunways.Enabled = false;
+            this.nUDCountLandingRunways.Location = new System.Drawing.Point(47, 236);
+            this.nUDCountLandingRunways.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nUDCountLandingRunways.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nUDCountLandingRunways.Name = "nUDCountLandingRunways";
+            this.nUDCountLandingRunways.Size = new System.Drawing.Size(120, 22);
+            this.nUDCountLandingRunways.TabIndex = 22;
+            this.nUDCountLandingRunways.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.nUDCountLandingRunways.ValueChanged += new System.EventHandler(this.nUDCountLandingRunways_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(44, 188);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(218, 17);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "Количество полос под посадку ";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(44, 207);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(268, 17);
+            this.label11.TabIndex = 23;
+            this.label11.Text = "(от 1 до 9, меньше общего количества)";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(428, 450);
+            this.ClientSize = new System.Drawing.Size(711, 340);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.nUDCountLandingRunways);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.dtpStartTime);
             this.Controls.Add(this.bStart);
             this.Controls.Add(this.nUDStep);
@@ -267,12 +335,13 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Стартовое окно";
+            this.Text = "Параметры моделирования";
             ((System.ComponentModel.ISupportInitialize)(this.nUDCountRunway)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDTimeInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDDelayMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUDCountLandingRunways)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,20 +352,24 @@
         private System.Windows.Forms.TextBox tbShedule;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown nUDCountRunway;
-        private System.Windows.Forms.CheckBox cbSepRunway;
-        private System.Windows.Forms.NumericUpDown nUDTimeInterval;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown nUDDelayMin;
-        private System.Windows.Forms.NumericUpDown nUDDelayMax;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown nUDStep;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button bStart;
-        private System.Windows.Forms.DateTimePicker dtpStartTime;
+        public System.Windows.Forms.NumericUpDown nUDCountRunway;
+        public System.Windows.Forms.CheckBox cbSepRunway;
+        public System.Windows.Forms.NumericUpDown nUDTimeInterval;
+        public System.Windows.Forms.NumericUpDown nUDDelayMin;
+        public System.Windows.Forms.NumericUpDown nUDDelayMax;
+        public System.Windows.Forms.NumericUpDown nUDStep;
+        public System.Windows.Forms.DateTimePicker dtpStartTime;
+        private System.Windows.Forms.Label label9;
+        public System.Windows.Forms.NumericUpDown nUDCountLandingRunways;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
     }
 }
 
