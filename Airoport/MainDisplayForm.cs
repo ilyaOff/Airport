@@ -28,7 +28,7 @@ namespace Airoport
             {
                 nUDStep.Value = f.nUDStep.Value;
                 N = (int)f.nUDCountRunway.Value;
-                pRunway0.Size += new Size(0, 110*(N -2)-10);
+                pRunway0.Size += new Size(0, 110*(N-2)-10);
             }
             //Расстановка полос
             for (int i = 0; i < N; i++)
@@ -46,8 +46,16 @@ namespace Airoport
             }
 
 
-            //exp = new Experiment(f)
+            exp = new Experiment((int)nUDStep.Value,
+                f.dtpStartTime.Value.Hour * 60 + f.dtpStartTime.Value.Minute,
+                f.cbSepRunway.Checked, N, (int)f.nUDCountLandingRunways.Value,
+                (int)f.nUDDelayMin.Value, (int)f.nUDDelayMax.Value,
+                (int)f.nUDTimeInterval.Value, f.tbShedule.Text);
             timer1.Enabled = true;
+
+            //LVSchedue.Items.Add();
+            
+
         }
         private void PlaseRunway(Panel p, Chart ch, int x, int y)
         {
@@ -63,7 +71,8 @@ namespace Airoport
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            exp.NextStep();
+            //отрисовать графику
         }
     }
 }

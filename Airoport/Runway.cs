@@ -11,16 +11,15 @@ namespace Airoport
         bool forTakeoff = true;
         bool forLanding = true;
 
-        int DelayMin, DelayMax;//отклонение от расписания?????
+        
         int TimeInterval, CurrentTimeInterval = 0;
         Airplane tmpAirplane = null;
 
-        public Runway(bool forTakeoff, bool forLanding, int DelayMin, int DelayMax, int TimeInterval)
+        public Runway(bool forTakeoff, bool forLanding, int TimeInterval)
         {
             this.forLanding = forLanding;
             this.forTakeoff = forTakeoff;
-            this.DelayMax = DelayMax;
-            this.DelayMin = DelayMin;
+            
             this.TimeInterval = TimeInterval;
         }
 

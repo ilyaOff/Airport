@@ -63,7 +63,7 @@
             this.tbShedule.Name = "tbShedule";
             this.tbShedule.Size = new System.Drawing.Size(240, 22);
             this.tbShedule.TabIndex = 0;
-            this.tbShedule.Text = "Путь до файла";
+            this.tbShedule.Text = "D:\\Users\\Илья\\Desktop\\Dd1.xlsx";
             // 
             // label1
             // 
@@ -348,8 +348,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox tbShedule;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -370,6 +368,7 @@
         public System.Windows.Forms.NumericUpDown nUDCountLandingRunways;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
+        public System.Windows.Forms.TextBox tbShedule;
     }
 }
 

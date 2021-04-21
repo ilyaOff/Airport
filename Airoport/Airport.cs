@@ -8,37 +8,35 @@ namespace Airoport
 {    
     class Airport
     {
-       // int TimeInterval;      
         bool ModSepRunway;
 
         Runway[] runway;
         int CountRunway;
+        int CountLandingRunway;
         Schedue schedue;
 
         Queue<Airplane> TakeoffQueue;
         Queue<Airplane> LandingQueue;
 
-        Experiment experiment;
-        //Random rnd;//А нужен ли?
+       
 
-        public Airport( bool ModSepRunway, int CountRunway, 
+        public Airport( bool ModSepRunway, int CountRunway, int CountLandingRunway,
                         int TimeInterval, int DelayMin, int DelayMax,
-                        string fileName, Experiment experiment, int StartTime)
+                        string fileName, Random rnd, int StartTime)
         {
-            //this.TimeInterval = TimeInterval;
             this.ModSepRunway = ModSepRunway;
             this.CountRunway = CountRunway;
-            this.experiment = experiment;
+            this.CountLandingRunway = CountLandingRunway;
 
-            schedue = new Schedue(fileName, experiment, StartTime);
+            schedue = new Schedue(fileName, rnd, StartTime);
 
             runway = new Runway[CountRunway];
             for (int i = 0; i < CountRunway; i++)
             {
-                //при разделении полос первая половина только на посадку,
-                //вторая - только на взлёт
-                runway[i] = new Runway(!ModSepRunway || i >= CountRunway / 2,
-                    !ModSepRunway || i < CountRunway / 2, DelayMin, DelayMax, TimeInterval);
+                //при разделении полос первые - только на посадку,
+                //вторые - только на взлёт
+                runway[i] = new Runway(!ModSepRunway || i >= CountLandingRunway,
+                    !ModSepRunway || i < CountLandingRunway, TimeInterval);
             }
 
         }
