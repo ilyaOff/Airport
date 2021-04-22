@@ -28,12 +28,12 @@ namespace Airoport
             this.CompanyName = CompanyName;
             this.AirplaneName = AirplaneName;            
             this.airType = airType;
-            this.dir = dir;            
+            this.dir = dir;           
         }
 
-        public void ServiceDone(int RealTime)
+        public void ServiceStarted(int Time)
         {
-            this.TimeReal = RealTime;            
+            this.TimeReal = this.TimeEvent + Time;
         }
         public void Tick(int WorldTime, Airport airport)
         {

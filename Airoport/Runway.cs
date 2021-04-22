@@ -8,11 +8,11 @@ namespace Airoport
 {
     class Runway
     {
-        bool forTakeoff = true;
-        bool forLanding = true;
+        public bool forTakeoff { get; private set; } = true;
+        public bool forLanding { get; private set; } = true;
 
         
-        int TimeInterval, CurrentTimeInterval = 0;
+        int TimeInterval, CurrentTimeInterval = 0;//минимальное время между взлетами/посадками 
         Airplane tmpAirplane = null;
 
         public Runway(bool forTakeoff, bool forLanding, int TimeInterval)
@@ -23,9 +23,10 @@ namespace Airoport
             this.TimeInterval = TimeInterval;
         }
 
-        public void GetAirplane(Airplane airplane)//от аэропорта
+        public void SetAirplane(Airplane airplane)//от аэропорта
         {
             tmpAirplane = airplane;
+            tmpAirplane.SetRunway(this);
         }
         
         public void Clear()//самолёт освобождает полосу
@@ -39,13 +40,12 @@ namespace Airoport
             return CurrentTimeInterval == 0 && tmpAirplane == null; 
         }
         public void Tick()
-        {
-            /* аэропорт всегда вызывает это
-             *if (tmpAirplane != null)
+        {            
+             if (tmpAirplane != null)
              {
                  tmpAirplane.Tick();
              }
-             */
+             
             if (CurrentTimeInterval != 0)
                 CurrentTimeInterval--;
         }

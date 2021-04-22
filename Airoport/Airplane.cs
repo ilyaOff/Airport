@@ -9,19 +9,23 @@ namespace Airoport
     public enum AirType { Cargo, Passenger, Jet }
     public enum State { Waiting, RunwayIn, TakingOff,
                         AirWaiting, SittingDown, RunwayOut, Done}
+    
     class Airplane
     {
+        
         public string Name {  get; private set; }
-        public string CompanyName { get; private set; };
+        public string CompanyName { get; private set; }
 
-        public AirType Type { get; private set; };
-        public State state { get; private set; };
+        public AirType Type { get; private set; }
+        public State state { get; private set; }
 
         Runway tmpRunway = null;
         Request SummonerRequest;
         Airport airport;
 
-        int TimeTakeOff, TimeLanding, CurrentTime;
+        public const int TimeMoveOnRunway = 5;
+        public int MoveTime { get; private set; }
+        public int CurrentTime { get; private set; }
         public Airplane(string name, string CompanyName, AirType type, 
                         Direction dir,  Request request, Airport airport)
         {
@@ -45,25 +49,79 @@ namespace Airoport
 
             switch (type)
             {
-                case AirType.Cargo: TimeTakeOff = TimeLanding = 5; break;
-                case AirType.Jet: TimeTakeOff = TimeLanding = 2; break;
-                case AirType.Passenger: TimeTakeOff = TimeLanding = 4; break;
+                case AirType.Cargo: MoveTime = 5; break;
+                case AirType.Jet: MoveTime = 2; break;
+                case AirType.Passenger: MoveTime = 4; break;
+                default:break;
             }
             CurrentTime = 0;
         }
-                
+
         public void SetRunway(Runway runway)//полосы
         {
-            tmpRunway = runway;
+            if (tmpRunway == null)
+            {
+                tmpRunway = runway;
+                SummonerRequest.ServiceStarted(CurrentTime);
+                if(state == State.AirWaiting)
+                {
+                    state = State.SittingDown;
+                    CurrentTime = this.MoveTime;
+                }
+                else//state == State.Waiting
+                {
+                    state = State.RunwayIn;
+                    CurrentTime = TimeMoveOnRunway;
+                }
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("У самолёта " + this.Name + " уже есть полоса!", "Error");
         }
         public void GetOffRunway()
         {
             tmpRunway.Clear();
             tmpRunway = null;
+            //state = State.Done;
+           // SummonerRequest.ServiceDone();
         }
         public void Tick()
-        { 
-        
+        {
+            if (CurrentTime == 0)
+            {
+                switch (state)
+                {
+                    //case State.Done: case State.AirWaiting: case State.Waiting: return;
+                    case State.RunwayIn:                        
+                        state = State.TakingOff;
+                        CurrentTime = MoveTime;
+                        break;
+
+                    case State.TakingOff:
+                        state = State.Done;
+                        this.GetOffRunway();                        
+                        break;
+
+                    case State.SittingDown:
+                        state = State.RunwayOut;
+                        CurrentTime = TimeMoveOnRunway;                        
+                        break;
+
+                    case State.RunwayOut:                        
+                        state = State.Done;
+                        this.GetOffRunway();                        
+                        break;
+                    default: return;
+                }
+            }
+            else
+            {
+                if (state == State.AirWaiting || state == State.Waiting)
+                {
+                    CurrentTime++;
+                }
+                //else
+                CurrentTime--;
+            }
         }
     }
 }

@@ -13,12 +13,10 @@ namespace Airoport
         Runway[] runway;
         int CountRunway;
         int CountLandingRunway;
-        Schedue schedue;
+        public Schedue schedue { get; private set; }
 
         Queue<Airplane> TakeoffQueue;
-        Queue<Airplane> LandingQueue;
-
-       
+        Queue<Airplane> LandingQueue;       
 
         public Airport( bool ModSepRunway, int CountRunway, int CountLandingRunway,
                         int TimeInterval, int DelayMin, int DelayMax,
@@ -28,7 +26,7 @@ namespace Airoport
             this.CountRunway = CountRunway;
             this.CountLandingRunway = CountLandingRunway;
 
-            schedue = new Schedue(fileName, rnd, StartTime);
+            schedue = new Schedue(fileName, rnd, StartTime, DelayMin, DelayMax);
 
             runway = new Runway[CountRunway];
             for (int i = 0; i < CountRunway; i++)
@@ -38,32 +36,68 @@ namespace Airoport
                 runway[i] = new Runway(!ModSepRunway || i >= CountLandingRunway,
                     !ModSepRunway || i < CountLandingRunway, TimeInterval);
             }
-
         }
-        public void NewFlyAirplane(Airplane pl)
-        {
-            LandingQueue.Enqueue(pl);
-        }
+       
         public void NewAirplane(Airplane pl)
         {
-            TakeoffQueue.Enqueue(pl);
+            if (pl.state == State.AirWaiting)
+            {
+                LandingQueue.Enqueue(pl);
+            }
+            else if (pl.state == State.Waiting)
+            {
+                TakeoffQueue.Enqueue(pl);
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Состояние самолета " + pl.Name + " " + pl.state.ToString(), "Error");
+            }
         }
 
         void DistributionRunways() // распределить полосы
         {
+            if (ModSepRunway)
+            {
+                for (int i = 0; i < CountLandingRunway; i++)
+                {
+                    if (runway[i].Ready())
+                    {
+                        runway[i].SetAirplane(LandingQueue.Dequeue());
+                    }
+                }
+                for (int i = CountLandingRunway; i < CountRunway; i++)
+                {
+                    if (runway[i].Ready())
+                    {
+                        runway[i].SetAirplane(TakeoffQueue.Dequeue());
+                    }
+                }
+            }
+            else
+            { 
+            
+            }
+
         }
-        public void Tick()
+        public void Tick(int WorldTime)
         {
-            //DistributionRunways()
-            schedue.Tick();
+            
+            schedue.Tick(WorldTime, this);
             for (int i = 0; i < CountRunway; i++)
             {
                 runway[i].Tick();
             }
-            //TakeoffQueue[i].Tick()
-            //LandingQueue[i].Tick()
+            DistributionRunways();
+            foreach (Airplane pl in TakeoffQueue)
+            {
+                pl.Tick();
+            }
+            foreach (Airplane pl in LandingQueue)
+            {
+                pl.Tick();
+            }            
 
-            
+
         }
     }
 }
