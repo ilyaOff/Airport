@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pRunways = new System.Windows.Forms.Panel();
             this.pRunway0 = new System.Windows.Forms.Panel();
             this.pAirQueue = new System.Windows.Forms.Panel();
@@ -145,14 +145,14 @@
             // chCountRequestDone
             // 
             this.chCountRequestDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea7.Name = "ChartArea1";
-            this.chCountRequestDone.ChartAreas.Add(chartArea7);
+            chartArea1.Name = "ChartArea1";
+            this.chCountRequestDone.ChartAreas.Add(chartArea1);
             this.chCountRequestDone.Location = new System.Drawing.Point(357, 390);
             this.chCountRequestDone.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chCountRequestDone.Name = "chCountRequestDone";
-            series7.ChartArea = "ChartArea1";
-            series7.Name = "Series1";
-            this.chCountRequestDone.Series.Add(series7);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.chCountRequestDone.Series.Add(series1);
             this.chCountRequestDone.Size = new System.Drawing.Size(226, 130);
             this.chCountRequestDone.TabIndex = 4;
             this.chCountRequestDone.Text = "chart2";
@@ -262,14 +262,14 @@
             // chDelay
             // 
             this.chDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea8.Name = "ChartArea1";
-            this.chDelay.ChartAreas.Add(chartArea8);
+            chartArea2.Name = "ChartArea1";
+            this.chDelay.ChartAreas.Add(chartArea2);
             this.chDelay.Location = new System.Drawing.Point(598, 390);
             this.chDelay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chDelay.Name = "chDelay";
-            series8.ChartArea = "ChartArea1";
-            series8.Name = "Series1";
-            this.chDelay.Series.Add(series8);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.chDelay.Series.Add(series2);
             this.chDelay.Size = new System.Drawing.Size(226, 130);
             this.chDelay.TabIndex = 26;
             this.chDelay.Text = "chart1";
@@ -287,14 +287,14 @@
             // chAvgRunwayWork
             // 
             this.chAvgRunwayWork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea9.Name = "ChartArea1";
-            this.chAvgRunwayWork.ChartAreas.Add(chartArea9);
+            chartArea3.Name = "ChartArea1";
+            this.chAvgRunwayWork.ChartAreas.Add(chartArea3);
             this.chAvgRunwayWork.Location = new System.Drawing.Point(839, 390);
             this.chAvgRunwayWork.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chAvgRunwayWork.Name = "chAvgRunwayWork";
-            series9.ChartArea = "ChartArea1";
-            series9.Name = "Series1";
-            this.chAvgRunwayWork.Series.Add(series9);
+            series3.ChartArea = "ChartArea1";
+            series3.Name = "Series1";
+            this.chAvgRunwayWork.Series.Add(series3);
             this.chAvgRunwayWork.Size = new System.Drawing.Size(226, 130);
             this.chAvgRunwayWork.TabIndex = 28;
             this.chAvgRunwayWork.Text = "Средняя занятость полос";
@@ -359,7 +359,6 @@
             // 
             // tbCurrentTime
             // 
-            this.tbCurrentTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tbCurrentTime.Location = new System.Drawing.Point(357, 12);
             this.tbCurrentTime.Name = "tbCurrentTime";
             this.tbCurrentTime.Size = new System.Drawing.Size(73, 22);

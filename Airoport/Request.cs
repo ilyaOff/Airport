@@ -9,14 +9,16 @@ namespace Airoport
     enum Direction { Landing, Takeoff}//посадка, взлёт
     class Request
     {
-        int TimeSchedue, TimeEvent, TimeReal = -1;
-        string AirplaneName;
-        string CompanyName;
-        AirType airType;
-        Direction dir;
+        public string AirplaneName { get; private set; }
+        public string CompanyName { get; private set; }
+        public AirType airType { get; private set; }
+        public Direction dir { get; private set; }
+        public int TimeSchedue { get; private set; }       
+        public int TimeReal { get; private set; } = -1;
+        int TimeEvent;
 
         Airplane airplane = null;
-        Airport airport;
+       
         public Request(int SchedueTime, string AirplaneName, string CompanyName,
                        Direction dir, AirType airType, int EventTime)
         {
@@ -33,7 +35,7 @@ namespace Airoport
         {
             this.TimeReal = RealTime;            
         }
-        public void Tick(int WorldTime)
+        public void Tick(int WorldTime, Airport airport)
         {
             if (airplane == null)
             {

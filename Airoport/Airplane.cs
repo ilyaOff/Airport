@@ -12,10 +12,10 @@ namespace Airoport
     class Airplane
     {
         public string Name {  get; private set; }
-        string CompanyName;
+        public string CompanyName { get; private set; };
 
-        AirType type;
-        State state;
+        public AirType Type { get; private set; };
+        public State state { get; private set; };
 
         Runway tmpRunway = null;
         Request SummonerRequest;
@@ -27,21 +27,21 @@ namespace Airoport
         {
             this.Name = name;
             this.CompanyName = CompanyName;
-            this.type = type;
-            
-            SummonerRequest = request;
+            this.Type = type;
             this.airport = airport;
+
+            SummonerRequest = request;
+        
             
             if (dir == Direction.Landing)
             {
-                this.state = State.AirWaiting;
-                airport.NewFlyAirplane(this);
+                this.state = State.AirWaiting;               
             }
             else //if (dir == Direction.Takeoff)
             {
-                this.state = State.Waiting;
-                airport.NewAirplane(this);
+                this.state = State.Waiting;               
             }
+            airport.NewAirplane(this);
 
             switch (type)
             {
@@ -51,8 +51,8 @@ namespace Airoport
             }
             CurrentTime = 0;
         }
-
-        public void GetRunway(Runway runway)//от аэропорта
+                
+        public void SetRunway(Runway runway)//полосы
         {
             tmpRunway = runway;
         }

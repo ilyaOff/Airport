@@ -15,7 +15,7 @@ namespace Airoport
         //int StartTime;
        // int DelayMin, DelayMax;
 
-        Airport airport;
+        public Airport airport { get; private set; }
         //int TimeInterval;
         //int CountRunway;
        // bool ModSepRunway;
@@ -41,7 +41,7 @@ namespace Airoport
             if (CurrentTime < StopTime)
             {
                 CurrentTime++;
-                airport.Tick();
+                airport.Tick(CurrentTime);
             }
             else
             { 

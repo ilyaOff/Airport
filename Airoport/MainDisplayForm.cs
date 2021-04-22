@@ -13,6 +13,15 @@ namespace Airoport
     public partial class MainDisplayForm : Form
     {
         Experiment exp;
+        string[] statutes = new string[]
+        {                
+                "Ожидание",//начала события
+                "В очереди",
+                "Подготовка",//полосы
+                "Взлёт",
+                "Посадка",
+                "Завершено",
+        };
         public MainDisplayForm()
         {
             InitializeComponent();            
@@ -45,7 +54,7 @@ namespace Airoport
                 Console.WriteLine("new " + i);
             }
 
-
+            //создание эксперимента
             exp = new Experiment((int)nUDStep.Value,
                 f.dtpStartTime.Value.Hour * 60 + f.dtpStartTime.Value.Minute,
                 f.cbSepRunway.Checked, N, (int)f.nUDCountLandingRunways.Value,
@@ -53,9 +62,17 @@ namespace Airoport
                 (int)f.nUDTimeInterval.Value, f.tbShedule.Text);
             timer1.Enabled = true;
 
-            //LVSchedue.Items.Add();
+            //заполнение таблицы расписания
+            int j = 0;
+            foreach(Request rec in exp.airport.schedue.requests )
+            {
+                LVSchedue.Items.Add("-");
+                LVSchedue.Items[j].SubItems.Add(rec.AirplaneName);
+                LVSchedue.Items[j].SubItems.Add(statutes[0]);
+                LVSchedue.Items[j].SubItems.Add(ToTimeFormat(rec.TimeSchedue));
+                j++;
+            }
             
-
         }
         private void PlaseRunway(Panel p, Chart ch, int x, int y)
         {
@@ -73,6 +90,22 @@ namespace Airoport
         {
             exp.NextStep();
             //отрисовать графику
+        }
+
+        string ToTimeFormat(int time)
+        {
+            string res = "";
+            if ((time / 60) < 10)
+            {
+                res += "0";
+            }
+            res += (time / 60).ToString() + ":";
+            if ((time % 60) < 10)
+            {
+                res += "0";
+            }
+            res += (time % 60).ToString();
+            return res;
         }
     }
 }
