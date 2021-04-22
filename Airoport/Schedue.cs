@@ -14,9 +14,9 @@ namespace Airoport
         //для генерации числа из нормального распределения и для значения мирового времени
         //Experiment experiment;
 
-        List<Request> requests;
+        public List<Request> requests { get; private set; }
 
-        public Schedue(string fileName, Random rnd, int StartTime)
+        public Schedue(string fileName, Random rnd, int StartTime, int DelayMin, int DelayMax)
         {
             this.rnd = rnd;
             requests = new List<Request>();
@@ -52,15 +52,13 @@ namespace Airoport
                 //string ddir;
                 AirType airType = AirType.Passenger;
                 string forAirType;
+                double a = 60.0, sigm = 20.0;
                 for (int i = 2; i <= rows; i++)
                 {
                     if (excelRange.Cells[i, 1] != null && excelRange.Cells[i, 1].Value2 != null)
                     {
-                        //Console.Write(excelRange.Cells[i, 1].Value.ToString() + "\t");
-                        time = -1;
-                        time = (int)Math.Round(excelRange.Cells[i, 1].Value2*24*60);
-                        if (time == -1)
-                            break;
+                        //Console.Write(excelRange.Cells[i, 1].Value.ToString() + "\t");                        
+                        time = (int)Math.Round(excelRange.Cells[i, 1].Value2*24*60);                        
                     }
 
                     if (excelRange.Cells[i, 2] != null && excelRange.Cells[i, 2].Value2 != null)
@@ -69,7 +67,11 @@ namespace Airoport
                         airplineName = "";
                         airplineName = excelRange.Cells[i, 2].Value2;
                         if (airplineName.Equals(""))
+                        {
+                            System.Windows.Forms.MessageBox.Show("Пустая строка", "Error");
                             break;
+                        }
+                            
                     }
                     if (excelRange.Cells[i, 3] != null && excelRange.Cells[i, 3].Value2 != null)
                     {
@@ -79,8 +81,19 @@ namespace Airoport
 
                     if (excelRange.Cells[i, 4] != null && excelRange.Cells[i, 4].Value2 != null)
                     {
-                        //Console.Write(excelRange.Cells[i, 4].Value.ToString() + "\t");                       
-                        dir = excelRange.Cells[i, 4].Value2.Equals("Посадка") ? Direction.Landing : Direction.Takeoff;
+                        //Console.Write(excelRange.Cells[i, 4].Value.ToString() + "\t");  
+                        if(excelRange.Cells[i, 4].Value2.Equals("Посадка"))
+                        {
+                            dir =  Direction.Landing;
+                            a = (DelayMax + Math.Max(0, DelayMin))/2.0;
+                            sigm = (DelayMax - a) / 3.0;
+                        }
+                        else
+                        {
+                            dir =  Direction.Takeoff;
+                            a = (DelayMax + DelayMin)/2.0;
+                            sigm = (DelayMax - a) / 3.0;
+                        }                       
                     }
                     if (excelRange.Cells[i, 5] != null && excelRange.Cells[i, 5].Value2 != null)
                     {
@@ -101,7 +114,7 @@ namespace Airoport
                     }
 
                     requests.Add(new Request(time, airplineName, companyName, dir, airType, 
-                        time + (int)Math.Round(GenerateNormalDistribution(60,20)) ));
+                        time + (int)Math.Round(GenerateNormalDistribution(a,sigm)) ));
                 }
                 
             }
@@ -124,9 +137,13 @@ namespace Airoport
             //----------------------------------------------------------------------------
 
         }
-        public void Tick()
+        public void Tick(int WorldTime, Airport airport)
         {
-            //requests[i].Tick(experiment.CurrentTime)
+            foreach (Request req in requests)
+            {
+                req.Tick(WorldTime, airport);
+            }
+            
         }
 
         private double GenerateNormalDistribution(double a, double sigm)
