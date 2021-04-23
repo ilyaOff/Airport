@@ -36,6 +36,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pRunways = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pRunway0 = new System.Windows.Forms.Panel();
             this.pAirQueue = new System.Windows.Forms.Panel();
             this.LVSchedue = new System.Windows.Forms.ListView();
@@ -65,6 +66,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tbCurrentTime = new System.Windows.Forms.TextBox();
             this.pRunways.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chCountRequestDone)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).BeginInit();
             this.gbButtons.SuspendLayout();
@@ -80,12 +82,23 @@
             this.pRunways.AutoScroll = true;
             this.pRunways.AutoScrollMinSize = new System.Drawing.Size(500, 340);
             this.pRunways.BackColor = System.Drawing.SystemColors.Highlight;
+            this.pRunways.Controls.Add(this.pictureBox1);
             this.pRunways.Controls.Add(this.pRunway0);
             this.pRunways.Location = new System.Drawing.Point(360, 15);
             this.pRunways.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pRunways.Name = "pRunways";
             this.pRunways.Size = new System.Drawing.Size(717, 340);
             this.pRunways.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pictureBox1.Image = global::Airoport.Properties.Resources.ПассажирскийПосадка;
+            this.pictureBox1.Location = new System.Drawing.Point(164, 221);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(91, 65);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // pRunway0
             // 
@@ -393,6 +406,7 @@
             this.Text = "Моделирование";
             this.Load += new System.EventHandler(this.MainDisplayForm_Load);
             this.pRunways.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chCountRequestDone)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).EndInit();
             this.gbButtons.ResumeLayout(false);
@@ -435,5 +449,6 @@
         private System.Windows.Forms.NumericUpDown nUDStep;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TextBox tbCurrentTime;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
