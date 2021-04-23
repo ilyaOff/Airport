@@ -13,6 +13,8 @@ namespace Airoport
     public partial class MainDisplayForm : Form
     {
         Experiment exp;
+        PictureBox[] planes;
+        List<PictureBox> airWaitingPlanes;
         string[] statutes = new string[]
         {                
                 "Ожидание",//начала события
@@ -37,7 +39,7 @@ namespace Airoport
             {
                 nUDStep.Value = f.nUDStep.Value;
                 N = (int)f.nUDCountRunway.Value;
-                pRunway0.Size += new Size(0, 110*(N-2)-10);
+                pRunway0.Size += new Size(0, 110 * (N - 2) - 10);
             }
             //Расстановка полос
             for (int i = 0; i < N; i++)
@@ -52,6 +54,25 @@ namespace Airoport
                 };
                 PlaseRunway(p, ch, 0, i);
                 Console.WriteLine("new " + i);
+            }
+
+            //Изображения самолетов
+            airWaitingPlanes = new List<PictureBox>();
+            planes = new PictureBox[N];
+            for (int i = 0; i < N; i++)
+            {
+                planes[i] = new PictureBox();
+               // planes[i].BackColor = Color.FromArgb(150,255, 0, 0);
+                planes[i].Size = global::Airoport.Properties.Resources.ПассажирскийВзлёт2.Size;
+                planes[i].Location = new Point(0, 0);
+                planes[i].Parent = pRunways;
+                planes[i].Image = global::Airoport.Properties.Resources.ПассажирскийВзлёт2;
+                planes[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                planes[i].TabIndex = 0;
+                planes[i].TabStop = false;
+
+                planes[i].BringToFront();
+                planes[i].Visible = false;
             }
 
             //создание эксперимента
@@ -73,6 +94,8 @@ namespace Airoport
                 j++;
             }
             
+
+
         }
         private void PlaseRunway(Panel p, Chart ch, int x, int y)
         {
@@ -90,6 +113,7 @@ namespace Airoport
         {
             exp.NextStep();
             //отрисовать графику
+            
         }
 
         string ToTimeFormat(int time)
