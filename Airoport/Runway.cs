@@ -13,7 +13,7 @@ namespace Airoport
 
         
         int TimeInterval, CurrentTimeInterval = 0;//минимальное время между взлетами/посадками 
-        Airplane tmpAirplane = null;
+        public Airplane tmpAirplane { get; private set; } = null;
 
         public Runway(bool forTakeoff, bool forLanding, int TimeInterval)
         {
@@ -40,14 +40,16 @@ namespace Airoport
             return CurrentTimeInterval == 0 && tmpAirplane == null; 
         }
         public void Tick()
-        {            
-             if (tmpAirplane != null)
+        {
+            if (CurrentTimeInterval != 0)
+                CurrentTimeInterval--;
+
+            if (tmpAirplane != null)
              {
                  tmpAirplane.Tick();
              }
              
-            if (CurrentTimeInterval != 0)
-                CurrentTimeInterval--;
+            
         }
     }
 }

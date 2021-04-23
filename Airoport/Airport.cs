@@ -10,7 +10,7 @@ namespace Airoport
     {
         bool ModSepRunway;
 
-        Runway[] runway;
+        public Runway[] runway { get; private set; }
         int CountRunway;
         int CountLandingRunway;
         public Schedue schedue { get; private set; }
@@ -60,8 +60,10 @@ namespace Airoport
         {
             if (ModSepRunway)
             {
+                
                 for (int i = 0; i < CountLandingRunway; i++)
                 {
+                    if (LandingQueue.Count == 0) break;
                     if (runway[i].Ready())
                     {
                         runway[i].SetAirplane(LandingQueue.Dequeue());
@@ -69,6 +71,7 @@ namespace Airoport
                 }
                 for (int i = CountLandingRunway; i < CountRunway; i++)
                 {
+                    if (TakeoffQueue.Count == 0) break;
                     if (runway[i].Ready())
                     {
                         runway[i].SetAirplane(TakeoffQueue.Dequeue());

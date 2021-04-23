@@ -15,6 +15,7 @@ namespace Airoport
         Experiment exp;
         PictureBox[] planes;
         List<PictureBox> airWaitingPlanes;
+        int N;
         string[] statutes = new string[]
         {                
                 "Ожидание",//начала события
@@ -33,7 +34,7 @@ namespace Airoport
         {
             //this.Show();
             Form1 f = new Form1();
-            int N = 2;
+            N = 2;
             f.ShowDialog();
             if (f.DialogResult == DialogResult.OK)
             {
@@ -52,7 +53,7 @@ namespace Airoport
                 {
                     Parent = pRunways
                 };
-                PlaseRunway(p, ch, 0, i);
+                PlaseRunway(p, ch, i);
                 Console.WriteLine("new " + i);
             }
 
@@ -92,28 +93,107 @@ namespace Airoport
                 LVSchedue.Items[j].SubItems.Add(statutes[0]);
                 LVSchedue.Items[j].SubItems.Add(ToTimeFormat(rec.TimeSchedue));
                 j++;
-            }
-            
-
+            }            
 
         }
-        private void PlaseRunway(Panel p, Chart ch, int x, int y)
+
+        Size runwaySize = new Size(330, 70);
+        Point runwayLocation = new Point(100, 47);
+        int runwayIntervalPosition = 110;
+        private void PlaseRunway(Panel p, Chart ch, int number)
         {
-            p.Size = new Size(330, 70);
-            p.Left = 100 + x;
-            p.Top =  47 + 110*y;
+            p.Size = runwaySize;
+            p.Left = runwayLocation.X;            
+            p.Top = runwayLocation.Y + runwayIntervalPosition * number;
             p.BackColor = pRunway0.BackColor;
 
             ch.Size = new Size(170, 104);
-            ch.Left =  435 + x;
-            ch.Top =  25 + 110*y;
+            ch.Left =  435;
+            ch.Top =  25 + runwayIntervalPosition * number;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            NextStep();
+        }
+        void NextStep()
+        {
             exp.NextStep();
             //отрисовать графику
-            
+            tbCurrentTime.Text = ToTimeFormat(exp.CurrentTime);
+            //Самолёты на полосе
+            DrawAirplaneOnRunway();
+            //самолеты в воздушной очереди
+        }
+        private void DrawAirplaneOnRunway()
+        {            
+            Airplane pl;
+            int H0 = pRunway0.Size.Height;
+            int hpl, H;
+            for (int i = 0; i < N; i++)
+            {
+                pl = exp.airport.runway[i].tmpAirplane;
+                hpl = planes[i].Size.Height;
+                H = runwayLocation.Y + runwayIntervalPosition * i + runwaySize.Height / 2;
+                if (planes[i].Visible)
+                {
+                    if (pl != null)
+                    {
+                        //двигаем самолёт по полосе, согласно его состоянию
+                        switch (pl.state)
+                        {
+                            case State.RunwayIn:
+                                /*planes[i].Left = pRunway0.Location.X + pRunway0.Size.Width / 4
+                                                + planes[i].Size.Width / 2;*/
+                                planes[i].Top = (-hpl + (H0 * pl.CurrentTime) / Airplane.TimeMoveOnRunway) / 2;
+                                break;
+                            case State.RunwayOut:
+                                planes[i].Top = (H0 - hpl - (H0 * pl.CurrentTime) / Airplane.TimeMoveOnRunway) / 2;
+                                break;
+                            case State.TakingOff:
+                                planes[i].Left += runwaySize.Width / pl.MoveTime;
+                                break;
+                            case State.SittingDown:
+                                planes[i].Left -= runwaySize.Width / pl.MoveTime;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        planes[i].Visible = false;
+                    }
+                }
+                else
+                {
+                    if (pl != null)
+                    {
+                        planes[i].Visible = true;
+                        //switch (pl.Type)
+                        planes[i].Image = global::Airoport.Properties.Resources.ПассажирскийВзлёт2;
+
+                        switch (pl.state)
+                        {
+                            case State.RunwayIn:
+                                planes[i].Size = new Size(planes[i].Image.Height, planes[i].Image.Width);
+                                planes[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+                                hpl = planes[i].Size.Height;
+                                planes[i].Top = (H0 - hpl) / 2;
+                                planes[i].Left = pRunway0.Location.X + pRunway0.Size.Width / 4
+                                                + planes[i].Size.Width / 2;
+                                break;
+                            case State.SittingDown:
+                                planes[i].Size = planes[i].Image.Size;
+                                planes[i].Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
+
+                                planes[i].Top = H - planes[i].Size.Height;
+                                planes[i].Left = runwayLocation.X + runwaySize.Width;
+                                break;
+                        }
+                    }
+                }
+
+            }
         }
 
         string ToTimeFormat(int time)
@@ -130,6 +210,30 @@ namespace Airoport
             }
             res += (time % 60).ToString();
             return res;
+        }
+
+        private void bNextStep_Click(object sender, EventArgs e)
+        {
+            NextStep();
+        }
+
+        private void bPause_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = !timer1.Enabled;
+            if (timer1.Enabled)
+            {
+                bPause.Text = "Прервать моделирование";
+            }
+            else
+            {
+                bPause.Text = "Продолжить моделирование";
+            }
+        }
+
+        private void bEnd_Click(object sender, EventArgs e)
+        {
+            exp.ToEnd();
+            NextStep();//для перерисовки графики и данных
         }
     }
 }
