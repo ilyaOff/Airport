@@ -15,8 +15,8 @@ namespace Airoport
         int CountLandingRunway;
         public Schedue schedue { get; private set; }
 
-        Queue<Airplane> TakeoffQueue;
-        Queue<Airplane> LandingQueue;       
+        public Queue<Airplane> TakeoffQueue { get; private set; }
+        public Queue<Airplane> LandingQueue { get; private set; }       
 
         public Airport( bool ModSepRunway, int CountRunway, int CountLandingRunway,
                         int TimeInterval, int DelayMin, int DelayMax,
@@ -36,6 +36,8 @@ namespace Airoport
                 runway[i] = new Runway(!ModSepRunway || i >= CountLandingRunway,
                     !ModSepRunway || i < CountLandingRunway, TimeInterval);
             }
+            TakeoffQueue = new Queue<Airplane>();
+            LandingQueue = new Queue<Airplane>();
         }
        
         public void NewAirplane(Airplane pl)
@@ -80,8 +82,7 @@ namespace Airoport
 
         }
         public void Tick(int WorldTime)
-        {
-            
+        {            
             schedue.Tick(WorldTime, this);
             for (int i = 0; i < CountRunway; i++)
             {
@@ -95,9 +96,7 @@ namespace Airoport
             foreach (Airplane pl in LandingQueue)
             {
                 pl.Tick();
-            }            
-
-
+            }
         }
     }
 }
