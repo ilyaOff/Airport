@@ -45,9 +45,9 @@ namespace Airoport
                 CurrentTimeInterval--;
 
             if (tmpAirplane != null)
-             {
+            {
                  tmpAirplane.Tick();
-             }
+            }
              
             
         }

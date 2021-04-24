@@ -86,7 +86,11 @@ namespace Airoport
         }
         public void Tick()
         {
-            if (CurrentTime == 0)
+            if (state == State.AirWaiting || state == State.Waiting)
+            {
+                CurrentTime++;//время ожидания в очереди
+            }
+            else if (CurrentTime == 0)//действие закончилось
             {
                 switch (state)
                 {
@@ -115,12 +119,7 @@ namespace Airoport
             }
             else
             {
-                if (state == State.AirWaiting || state == State.Waiting)
-                {
-                    CurrentTime++;
-                }
-                //else
-                CurrentTime--;
+                CurrentTime--;//теперь осталось ждать столько минут
             }
         }
     }

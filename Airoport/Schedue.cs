@@ -40,7 +40,8 @@ namespace Airoport
 
                 int rows = excelRange.Rows.Count;
                 int cols = excelRange.Columns.Count;
-
+                //rows = 0;//для отладки
+                rows = 50;//для отладки
                 if (cols != 5)//у меня столько колонок
                 {
                     Console.Write("Incorrect count collumns");
@@ -112,7 +113,8 @@ namespace Airoport
                             airType = AirType.Jet;
                         }
                     }
-
+                    // для отладки!!!!!!!!!!!!!!!!!!!!!!!
+                    airType = AirType.Passenger;
                     requests.Add(new Request(time, airplineName, companyName, dir, airType, 
                         time + (int)Math.Round(GenerateNormalDistribution(a,sigm)) ));
                 }

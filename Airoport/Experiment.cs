@@ -11,7 +11,7 @@ namespace Airoport
         
         int StopTime = 24 * 60;//конец моделирования
         public int TimeStep { get; set; } = 5;
-        public int CurrentTime { get; private set; } = 0;
+        public int CurrentTime { get; private set; } = -1;
         //int StartTime;
        // int DelayMin, DelayMax;
 
@@ -44,8 +44,8 @@ namespace Airoport
                 airport.Tick(CurrentTime);
             }
             else
-            { 
-                
+            {
+                System.Windows.Forms.MessageBox.Show("Моделирование завершено");
             }
                
         }
