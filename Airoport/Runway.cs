@@ -25,6 +25,10 @@ namespace Airoport
 
         public void SetAirplane(Airplane airplane)//от аэропорта
         {
+            if (tmpAirplane != null)
+            {
+                System.Windows.Forms.MessageBox.Show("!!!!!", "Error");
+            }
             tmpAirplane = airplane;
             tmpAirplane.SetRunway(this);
         }

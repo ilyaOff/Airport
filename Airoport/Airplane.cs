@@ -23,7 +23,7 @@ namespace Airoport
         Request SummonerRequest;
         Airport airport;
 
-        public const int TimeMoveOnRunway = 5;
+        public static int TimeMoveOnRunway = 5;
         public int MoveTime { get; private set; }
         public int CurrentTime { get; private set; }
         public Airplane(string name, string CompanyName, AirType type, 
@@ -90,37 +90,37 @@ namespace Airoport
             {
                 CurrentTime++;//время ожидания в очереди
             }
-            else if (CurrentTime == 0)//действие закончилось
-            {
-                switch (state)
-                {
-                    //case State.Done: case State.AirWaiting: case State.Waiting: return;
-                    case State.RunwayIn:                        
-                        state = State.TakingOff;
-                        CurrentTime = MoveTime;
-                        break;
-
-                    case State.TakingOff:
-                        state = State.Done;
-                        this.GetOffRunway();                        
-                        break;
-
-                    case State.SittingDown:
-                        state = State.RunwayOut;
-                        CurrentTime = TimeMoveOnRunway;                        
-                        break;
-
-                    case State.RunwayOut:                        
-                        state = State.Done;
-                        this.GetOffRunway();                        
-                        break;
-                    default: return;
-                }
-            }
             else
-            {
-                CurrentTime--;//теперь осталось ждать столько минут
-            }
+            {   
+                if (CurrentTime == 0)//действие закончилось
+                {
+                    switch (state)
+                    {
+                        //case State.Done: case State.AirWaiting: case State.Waiting: return;
+                        case State.RunwayIn:
+                            state = State.TakingOff;
+                            CurrentTime = MoveTime;
+                            break;
+
+                        case State.TakingOff:
+                            state = State.Done;
+                            this.GetOffRunway();
+                            break;
+
+                        case State.SittingDown:
+                            state = State.RunwayOut;
+                            CurrentTime = TimeMoveOnRunway;
+                            break;
+
+                        case State.RunwayOut:
+                            state = State.Done;
+                            this.GetOffRunway();
+                            break;
+                        default: return;
+                    }
+                }                
+                CurrentTime--;//теперь осталось ждать столько минут                
+            }            
         }
     }
 }

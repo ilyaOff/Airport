@@ -28,7 +28,8 @@ namespace Airoport
         {
             this.TimeStep = TimeStep;
             rnd = new Random(0);//для отладки
-
+            //длительность прохождения по общей полосе зависит от её длины, => от количества полос
+            Airplane.TimeMoveOnRunway = (CountRunway * 5) / 2;
 
             airport = new Airport(ModSepRunway, CountRunway, CountLandingRunway,
                                 TimeInterval, DelayMin, DelayMax,
@@ -36,16 +37,18 @@ namespace Airoport
            
         }
        
-        public void Tick()
+        public bool Tick()
         {            
             if (CurrentTime < StopTime)
             {
                 CurrentTime++;
                 airport.Tick(CurrentTime);
+                return false;
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("Моделирование завершено");
+               
+                return true;
             }
                
         }
@@ -54,14 +57,14 @@ namespace Airoport
         {
             for (int i = 0; i < TimeStep; i++)
             {
-                Tick();
+                if (Tick()) break;
             }            
         }
         public void ToEnd()
         {
             while (CurrentTime < 24 * 60)
             {
-                Tick();
+                if (Tick()) break;
             }
         }
     }
