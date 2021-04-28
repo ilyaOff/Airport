@@ -79,8 +79,25 @@ namespace Airoport
                 }
             }
             else
-            { 
-            
+            {
+                //простой алгоритм
+                int i = 0;
+                for (; i < CountRunway; i++)
+                {
+                    if (LandingQueue.Count == 0) break;
+                    if (runway[i].Ready())
+                    {
+                        runway[i].SetAirplane(LandingQueue.Dequeue());
+                    }
+                }
+                for (; i < CountRunway; i++)
+                {
+                    if (TakeoffQueue.Count == 0) break;
+                    if (runway[i].Ready())
+                    {
+                        runway[i].SetAirplane(TakeoffQueue.Dequeue());
+                    }
+                }
             }
 
         }

@@ -39,18 +39,21 @@ namespace Airoport
        
         public bool Tick()
         {            
-            if (CurrentTime < StopTime)
+            if (CurrentTime >= StopTime ||
+                (airport.schedue.requests.Last().TimeReal != -1
+                && CurrentTime >= airport.schedue.requests.Last().TimeReal + Airplane.TimeMoveOnRunway*2
+                && airport.TakeoffQueue.Count == 0 && airport.LandingQueue.Count == 0))            
+            {
+
+                return true;
+            }
+            else
             {
                 CurrentTime++;
                 airport.Tick(CurrentTime);
                 return false;
             }
-            else
-            {
-               
-                return true;
-            }
-               
+            
         }
 
         public void NextStep()

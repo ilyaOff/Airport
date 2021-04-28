@@ -20,7 +20,7 @@ namespace Airoport
         public State state { get; private set; }
 
         Runway tmpRunway = null;
-        Request SummonerRequest;
+        public Request SummonerRequest { get; private set; }
         Airport airport;
 
         public static int TimeMoveOnRunway = 5;
