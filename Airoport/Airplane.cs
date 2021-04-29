@@ -19,7 +19,7 @@ namespace Airoport
         public AirType Type { get; private set; }
         public State state { get; private set; }
 
-        Runway tmpRunway = null;
+        public int Runway { get; private set; } = -1;
         public Request SummonerRequest { get; private set; }
         Airport airport;
 
@@ -57,11 +57,11 @@ namespace Airoport
             CurrentTime = 0;
         }
 
-        public void SetRunway(Runway runway)//полосы
+        public void SetRunway(int runway)//полосы
         {
-            if (tmpRunway == null)
+            if (Runway == -1)
             {
-                tmpRunway = runway;
+                Runway = runway;
                 SummonerRequest.ServiceStarted(CurrentTime);
                 if(state == State.AirWaiting)
                 {
@@ -77,13 +77,7 @@ namespace Airoport
             else
                 System.Windows.Forms.MessageBox.Show("У самолёта " + this.Name + " уже есть полоса!", "Error");
         }
-        public void GetOffRunway()
-        {
-            tmpRunway.Clear();
-            tmpRunway = null;
-            //state = State.Done;
-           // SummonerRequest.ServiceDone();
-        }
+        
         public void Tick()
         {
             if (state == State.AirWaiting || state == State.Waiting)
@@ -104,7 +98,6 @@ namespace Airoport
 
                         case State.TakingOff:
                             state = State.Done;
-                            this.GetOffRunway();
                             break;
 
                         case State.SittingDown:
@@ -114,7 +107,6 @@ namespace Airoport
 
                         case State.RunwayOut:
                             state = State.Done;
-                            this.GetOffRunway();
                             break;
                         default: return;
                     }

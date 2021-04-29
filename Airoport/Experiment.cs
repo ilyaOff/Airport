@@ -27,22 +27,21 @@ namespace Airoport
             string fileName)
         {
             this.TimeStep = TimeStep;
-            rnd = new Random(0);//для отладки
+            rnd = new Random();
             //длительность прохождения по общей полосе зависит от её длины, => от количества полос
             Airplane.TimeMoveOnRunway = (CountRunway * 5) / 2;
 
             airport = new Airport(ModSepRunway, CountRunway, CountLandingRunway,
                                 TimeInterval, DelayMin, DelayMax,
                                 fileName, rnd, CurrentTime);
-           
         }
        
         public bool Tick()
         {            
-            if (CurrentTime >= StopTime ||
-                (airport.schedue.requests.Last().TimeReal != -1
-                && CurrentTime >= airport.schedue.requests.Last().TimeReal + Airplane.TimeMoveOnRunway*2
-                && airport.TakeoffQueue.Count == 0 && airport.LandingQueue.Count == 0))            
+            if (CurrentTime >= StopTime )
+               // || (airport.schedue.requests.Last().TimeReal != -1
+               // && CurrentTime >= airport.schedue.requests.Last().TimeReal + Airplane.TimeMoveOnRunway*2
+               // && airport.TakeoffQueue.Count == 0 && airport.LandingQueue.Count == 0))            
             {
 
                 return true;

@@ -63,9 +63,29 @@ namespace Airoport.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ПассажирскийВзлёт2 {
+        internal static System.Drawing.Bitmap Бизнес_джет {
             get {
-                object obj = ResourceManager.GetObject("ПассажирскийВзлёт2", resourceCulture);
+                object obj = ResourceManager.GetObject("Бизнес-джет", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Грузовой {
+            get {
+                object obj = ResourceManager.GetObject("Грузовой", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Пассажирский {
+            get {
+                object obj = ResourceManager.GetObject("Пассажирский", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

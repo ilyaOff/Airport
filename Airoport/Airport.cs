@@ -66,7 +66,7 @@ namespace Airoport
                     if (LandingQueue.Count == 0) break;
                     if (runway[i].Ready())
                     {
-                        runway[i].SetAirplane(LandingQueue.Dequeue());
+                        runway[i].SetAirplane(LandingQueue.Dequeue(), i);
                     }
                 }
                 for (int i = CountLandingRunway; i < CountRunway; i++)
@@ -74,7 +74,7 @@ namespace Airoport
                     if (TakeoffQueue.Count == 0) break;
                     if (runway[i].Ready())
                     {
-                        runway[i].SetAirplane(TakeoffQueue.Dequeue());
+                        runway[i].SetAirplane(TakeoffQueue.Dequeue(), i);
                     }
                 }
             }
@@ -87,7 +87,7 @@ namespace Airoport
                     if (LandingQueue.Count == 0) break;
                     if (runway[i].Ready())
                     {
-                        runway[i].SetAirplane(LandingQueue.Dequeue());
+                        runway[i].SetAirplane(LandingQueue.Dequeue(), i);
                     }
                 }
                 for (; i < CountRunway; i++)
@@ -95,7 +95,7 @@ namespace Airoport
                     if (TakeoffQueue.Count == 0) break;
                     if (runway[i].Ready())
                     {
-                        runway[i].SetAirplane(TakeoffQueue.Dequeue());
+                        runway[i].SetAirplane(TakeoffQueue.Dequeue(), i);
                     }
                 }
             }

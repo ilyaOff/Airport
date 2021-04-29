@@ -128,6 +128,11 @@
             this.nUDTimeInterval.Name = "nUDTimeInterval";
             this.nUDTimeInterval.Size = new System.Drawing.Size(136, 22);
             this.nUDTimeInterval.TabIndex = 5;
+            this.nUDTimeInterval.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // label3
             // 
@@ -150,7 +155,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(351, 132);
+            this.label5.Location = new System.Drawing.Point(351, 131);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 17);
             this.label5.TabIndex = 10;
@@ -170,25 +175,35 @@
             0,
             -2147483648});
             this.nUDDelayMin.Name = "nUDDelayMin";
-            this.nUDDelayMin.Size = new System.Drawing.Size(45, 22);
+            this.nUDDelayMin.Size = new System.Drawing.Size(69, 22);
             this.nUDDelayMin.TabIndex = 11;
+            this.nUDDelayMin.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
             // 
             // nUDDelayMax
             // 
-            this.nUDDelayMax.Location = new System.Drawing.Point(490, 131);
+            this.nUDDelayMax.Location = new System.Drawing.Point(506, 129);
             this.nUDDelayMax.Maximum = new decimal(new int[] {
             120,
             0,
             0,
             0});
             this.nUDDelayMax.Name = "nUDDelayMax";
-            this.nUDDelayMax.Size = new System.Drawing.Size(45, 22);
+            this.nUDDelayMax.Size = new System.Drawing.Size(65, 22);
             this.nUDDelayMax.TabIndex = 13;
+            this.nUDDelayMax.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(458, 134);
+            this.label6.Location = new System.Drawing.Point(473, 131);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(27, 17);
             this.label6.TabIndex = 12;
@@ -220,7 +235,7 @@
             this.nUDStep.Size = new System.Drawing.Size(136, 22);
             this.nUDStep.TabIndex = 17;
             this.nUDStep.Value = new decimal(new int[] {
-            5,
+            30,
             0,
             0,
             0});

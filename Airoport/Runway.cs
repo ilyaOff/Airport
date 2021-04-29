@@ -23,14 +23,14 @@ namespace Airoport
             this.TimeInterval = TimeInterval;
         }
 
-        public void SetAirplane(Airplane airplane)//от аэропорта
+        public void SetAirplane(Airplane airplane, int i)//от аэропорта
         {
             if (tmpAirplane != null)
             {
                 System.Windows.Forms.MessageBox.Show("!!!!!", "Error");
             }
             tmpAirplane = airplane;
-            tmpAirplane.SetRunway(this);
+            tmpAirplane.SetRunway(i);
         }
         
         public void Clear()//самолёт освобождает полосу
@@ -51,6 +51,7 @@ namespace Airoport
             if (tmpAirplane != null)
             {
                  tmpAirplane.Tick();
+                if (tmpAirplane.state == State.Done) Clear();
             }
              
             

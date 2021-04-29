@@ -12,7 +12,7 @@ namespace Airoport
     {
         Random rnd;
         //для генерации числа из нормального распределения и для значения мирового времени
-        //Experiment experiment;
+        int StartRequest = 0;
 
         public List<Request> requests { get; private set; }
 
@@ -41,11 +41,11 @@ namespace Airoport
                 int rows = excelRange.Rows.Count;
                 int cols = excelRange.Columns.Count;
                 //rows = 0;//для отладки
-                //rows = 20;//для отладки
+                //rows = 50;//для отладки
                 if (cols != 5)//у меня столько колонок
                 {
                     Console.Write("Incorrect count collumns");
-                   // return;
+                    return;
                 }
                 int time = -1;
                 string airplineName = "", companyName = "";
@@ -72,7 +72,6 @@ namespace Airoport
                             System.Windows.Forms.MessageBox.Show("Пустая строка", "Error");
                             break;
                         }
-                            
                     }
                     if (excelRange.Cells[i, 3] != null && excelRange.Cells[i, 3].Value2 != null)
                     {
@@ -86,15 +85,14 @@ namespace Airoport
                         if(excelRange.Cells[i, 4].Value2.Equals("Посадка"))
                         {
                             dir =  Direction.Landing;
-                            a = (DelayMax + Math.Max(0, DelayMin))/2.0;
-                            sigm = (DelayMax - a) / 3.0;
+                            a = (DelayMax + Math.Max(0, DelayMin))/2.0;                            
                         }
                         else
                         {
                             dir =  Direction.Takeoff;
-                            a = (DelayMax + DelayMin)/2.0;
-                            sigm = (DelayMax - a) / 3.0;
-                        }                       
+                            a = (DelayMax + DelayMin)/2.0;                            
+                        }
+                        sigm = (DelayMax - a) / 3.0;
                     }
                     if (excelRange.Cells[i, 5] != null && excelRange.Cells[i, 5].Value2 != null)
                     {
@@ -113,10 +111,10 @@ namespace Airoport
                             airType = AirType.Jet;
                         }
                     }
-                    // для отладки!!!!!!!!!!!!!!!!!!!!!!!
-                    //airType = AirType.Passenger;
-                    requests.Add(new Request(time, airplineName, companyName, dir, airType, 
-                        time + (int)Math.Round(GenerateNormalDistribution(a,sigm)) ));
+                    
+                    time = time + (int)Math.Round(GenerateNormalDistribution(a, sigm));
+                    time = time >= 0 ? time : -time;
+                    requests.Add(new Request(time, airplineName, companyName, dir, airType, time));
                 }
                 
             }
@@ -131,7 +129,6 @@ namespace Airoport
                 //Console.Write(errorMessage);
                 System.Windows.Forms.MessageBox.Show(errorMessage, "Error");
             }
-           
             //after reading, relaase the excel project
             excelApp.Quit();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
@@ -141,11 +138,48 @@ namespace Airoport
         }
         public void Tick(int WorldTime, Airport airport)
         {
+            /*
             foreach (Request req in requests)
             {
                 req.Tick(WorldTime, airport);
+            }*/
+            for (int i = StartRequest; i < requests.Count(); i++)
+            {
+                requests[i].Tick(WorldTime, airport);
+                //сортировка расписания
+                if (requests[i].TimeReal != -1)
+                {
+                    int k = 0;
+                    for (; i + k > 0; k--)
+                    {
+                        if (requests[i + k - 1].TimeReal != -1) break;
+                    }
+                    if (k != 0)
+                    {
+                        Request req = requests[i];
+                        requests.RemoveAt(i);
+                        requests.Insert(i + k, req);
+                        StartRequest++;
+                    }
+                }
+                else if (requests[i].TimeEvent == WorldTime)
+                {
+                    int k = 0;
+                    for (; i + k > 0; k--)
+                    {                        
+                        if (requests[i + k - 1].TimeEvent < requests[i].TimeEvent)
+                        {
+                            break;
+                        }
+                    }
+                    if (k != 0)
+                    {
+                        Request req = requests[i];
+                        requests.RemoveAt(i);
+                        requests.Insert(i + k, req);
+                    }
+                }
             }
-            
         }
 
         private double GenerateNormalDistribution(double a, double sigm)

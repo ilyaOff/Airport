@@ -106,5 +106,14 @@
   <ItemGroup>
     <None Include="Resources\ПассажирскийВзлёт2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Бизнес-джет.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Грузовой.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Пассажирский.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

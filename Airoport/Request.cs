@@ -15,15 +15,15 @@ namespace Airoport
         public Direction dir { get; private set; }
         public int TimeSchedue { get; private set; }       
         public int TimeReal { get; private set; } = -1;
-        int TimeEvent;
+        public int TimeEvent { get; private set; }
 
-        Airplane airplane = null;
+        public Airplane airplane { get; private set; } = null;
        
         public Request(int SchedueTime, string AirplaneName, string CompanyName,
                        Direction dir, AirType airType, int EventTime)
         {
             this.TimeSchedue = SchedueTime;
-            this.TimeEvent = EventTime;            
+            this.TimeEvent = EventTime;
 
             this.CompanyName = CompanyName;
             this.AirplaneName = AirplaneName;            
