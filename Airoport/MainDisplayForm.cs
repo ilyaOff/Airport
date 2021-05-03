@@ -27,9 +27,9 @@ namespace Airoport
                 "Посадка",
                 "Завершено",
         };
-        Size runwaySize = new Size(330, 80);
+        Size runwaySize = new Size(330, 90);
         Point runwayLocation = new Point(210, 47);
-        int runwayIntervalPosition = 110;
+        int runwayIntervalPosition = 125;
         int countTakeOff = 0;
         int countLanding = 0;
         public MainDisplayForm()
@@ -116,7 +116,7 @@ namespace Airoport
                 MessageBox.Show("Invalid Start", "Error");
                 return;
             }
-            N = (int)f.nUDCountRunway.Value;
+            N = (int)f.nUDCountRunways.Value;
             //создание эксперимента
             exp = new Experiment((int)nUDStep.Value,
                 f.dtpStartTime.Value.Hour * 60 + f.dtpStartTime.Value.Minute,
@@ -132,7 +132,7 @@ namespace Airoport
             //полосы
             if (pRunways == null)
             {
-                int max = (int)f.nUDCountRunway.Maximum;
+                int max = (int)f.nUDCountRunways.Maximum;
                 pRunways = new Panel[max];
                 for (int i = 0; i < max; i++)
                 {
@@ -156,7 +156,7 @@ namespace Airoport
             //графики к полосам
             if (chRunways == null)
             {
-                int max = (int)f.nUDCountRunway.Maximum;
+                int max = (int)f.nUDCountRunways.Maximum;
                 chRunways = new Chart[max];
                 for (int i = 0; i < max; i++)
                 {
@@ -177,8 +177,8 @@ namespace Airoport
                     chRunways[i].Series[0].Points.AddXY(0, 0);
 
                     chRunways[i].Series[1].ChartType = SeriesChartType.Line;
-                    chRunways[i].Series[0].BorderWidth = 3;
-                    chRunways[i].Series[0].Color = Color.Blue;
+                    chRunways[i].Series[1].BorderWidth = 3;
+                    chRunways[i].Series[1].Color = Color.Blue;
                     chRunways[i].Series[1].Points.AddXY(0, 0);
                 }
             }
@@ -206,7 +206,7 @@ namespace Airoport
             //Изображения самолетов
             if (planes == null)
             {
-                int max = (int)f.nUDCountRunway.Maximum;
+                int max = (int)f.nUDCountRunways.Maximum;
                 planes = new PictureBox[max];
                 for (int i = 0; i < max; i++)
                 {
@@ -249,6 +249,7 @@ namespace Airoport
             foreach (Request rec in exp.airport.schedue.requests)
             {
                 LVSchedue.Items.Add("-");
+                LVSchedue.Items[j].UseItemStyleForSubItems = false;
                 LVSchedue.Items[j].SubItems.Add(rec.AirplaneName);
                 LVSchedue.Items[j].SubItems.Add(statutes[0]);
                 LVSchedue.Items[j].SubItems.Add(ToTimeFormat(rec.TimeSchedue));
@@ -275,6 +276,7 @@ namespace Airoport
             }
 
             countTakeOff = countLanding = 0;
+            bPause.Text = "Прервать моделирование";
             timer1.Enabled = true;
         }
         void PlaseRunway(Panel p, Chart ch, int number)
@@ -284,9 +286,9 @@ namespace Airoport
             p.Top = runwayLocation.Y + runwayIntervalPosition * number;
             p.BackColor = pRunway0.BackColor;
 
-            ch.Size = new Size(170, 104);
+            ch.Size = new Size(220, 120);
             ch.Left = runwayLocation.X + runwaySize.Width + 10;
-            ch.Top = 25 + runwayIntervalPosition * number;
+            ch.Top = 30 + runwayIntervalPosition * number;
         }
 
         void NextStepDraw()
@@ -318,9 +320,11 @@ namespace Airoport
 
             chDelay.Series[1].Points.AddXY(exp.CurrentTime, maxLanding);
             chDelay.Series[0].Points.AddXY(exp.CurrentTime, maxTakeoff);
+
             chDelay.ChartAreas[0].AxisX.Minimum = Math.Max(0, exp.CurrentTime - 60);
             chDelay.ChartAreas[0].AxisX.Maximum = exp.CurrentTime;
             chDelay.ChartAreas[0].AxisY.Maximum = Math.Max(chDelay.ChartAreas[0].AxisY.Maximum, Math.Max(maxTakeoff, maxLanding));
+            
             tbDelay.Text = Math.Max(maxTakeoff, maxLanding).ToString();
 
             //отрисовать графику
@@ -401,7 +405,7 @@ namespace Airoport
                                     planes[i].Left = pRunways[i].Left - wpl / 2;
                                     break;
 
-                                case State.SittingDown://-> State.RunwayOut                                    
+                                case State.Landing://-> State.RunwayOut                                    
                                     planes[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
                                     planes[i].Size = planes[i].Image.Size;
                                     //planes[i].BackColor = Color.FromArgb(255, 255, 0);
@@ -455,7 +459,7 @@ namespace Airoport
                                     planes[i].Left = pRunways[i].Left - wpl / 2
                                              + pRunways[i].Size.Width - (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
                                     break;
-                                case State.SittingDown:
+                                case State.Landing:
                                    // planes[i].BackColor = Color.FromArgb(0, 0, 0);
 
                                     planes[i].Top = H - hpl / 2;
@@ -463,6 +467,7 @@ namespace Airoport
                                             + (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
                                     break;
                             }
+                            planes[i].Refresh();
                         }
                     }
                     else
@@ -502,7 +507,7 @@ namespace Airoport
                                 planes[i].Top = (H - H0);
                                 planes[i].Left = runwayDown - wpl / 2;
                                 break;
-                            case State.SittingDown:
+                            case State.Landing:
                                 planes[i].Image.RotateFlip(RotateFlipType.Rotate180FlipNone);
                                 planes[i].Size = planes[i].Image.Size;
                                 //planes[i].BackColor = Color.FromArgb(0, 0, 0);
@@ -584,16 +589,33 @@ namespace Airoport
                 airWaitingPlanes[i].Visible = false;
             }
         }
+        
         void NewDoneRequest(int nRunway, Direction dir)
         {
             //Уменьшение количества точек
-            while (chRunways[nRunway].Series[0].Points.Count > 60)
+            //while (chRunways[nRunway].Series[0].Points.Count > 60)
+            while (chRunways[nRunway].Series[0].Points[0].XValue < exp.CurrentTime - 60)
             {
-                chRunways[nRunway].Series[0].Points.RemoveAt(0);
+                if (exp.CurrentTime - 60 < chRunways[nRunway].Series[0].Points[1].XValue)
+                {
+                    chRunways[nRunway].Series[0].Points[0].XValue = exp.CurrentTime - 60;
+                }
+                else
+                {
+                    chRunways[nRunway].Series[0].Points.RemoveAt(0);
+                }
             }
-            while (chRunways[nRunway].Series[1].Points.Count > 60)
+            //while (chRunways[nRunway].Series[1].Points.Count > 60)
+            while (chRunways[nRunway].Series[1].Points[0].XValue < exp.CurrentTime - 60)
             {
-                chRunways[nRunway].Series[1].Points.RemoveAt(0);
+                if (exp.CurrentTime - 60 < chRunways[nRunway].Series[1].Points[1].XValue)
+                {
+                    chRunways[nRunway].Series[1].Points[0].XValue = exp.CurrentTime - 60;
+                }
+                else
+                {
+                    chRunways[nRunway].Series[1].Points.RemoveAt(0);
+                }
             }
 
             if (dir == Direction.Landing)
@@ -612,46 +634,55 @@ namespace Airoport
             }
             chRunways[nRunway].ChartAreas[0].AxisX.Minimum = Math.Max(0, exp.CurrentTime - 60);
             chRunways[nRunway].ChartAreas[0].AxisX.Maximum = Math.Max(10, exp.CurrentTime);
-            chRunways[nRunway].ChartAreas[0].AxisY.Minimum = 
-                Math.Min(chRunways[nRunway].Series[0].Points[0].YValues[0],
+            chRunways[nRunway].ChartAreas[0].AxisY.Minimum = Math.Min(chRunways[nRunway].Series[0].Points[0].YValues[0],
                 chRunways[nRunway].Series[1].Points[0].YValues[0]);
+            chRunways[nRunway].ChartAreas[0].AxisY.Maximum = Math.Max(chRunways[nRunway].Series[0].Points.Last().YValues[0],
+                chRunways[nRunway].Series[1].Points.Last().YValues[0]);
         }
 
         void ShedueRefresh()
         {
             //заполнение таблицы расписания
             //LVSchedue.Items.Clear();
-            int j = 0;
+            int j = -1;
             foreach (Request rec in exp.airport.schedue.requests)
             {
+                j++;
+                if (LVSchedue.Items[j].SubItems[2].Text.Equals(statutes[5]))
+                {
+                    continue;
+                }
+
+                if (!LVSchedue.Items[j].SubItems[1].Text.Equals(rec.AirplaneName))
+                {
+                    LVSchedue.Items[j].SubItems[1].Text = rec.AirplaneName;
+                    if (rec.dir == Direction.Landing)
+                        LVSchedue.Items[j].SubItems[5].Text = "Посадка";
+                    else
+                        LVSchedue.Items[j].SubItems[5].Text = "Взлет";
+
+                    switch (rec.airType)
+                    {
+                        case AirType.Cargo:
+                            LVSchedue.Items[j].SubItems[6].Text = "Грузовой";
+                            break;
+                        case AirType.Jet:
+                            LVSchedue.Items[j].SubItems[6].Text = "Бизнес-джет";
+                            break;
+                        case AirType.Passenger:
+                            LVSchedue.Items[j].SubItems[6].Text = "Пассажирский";
+                            break;
+                    }
+                    LVSchedue.Items[j].SubItems[7].Text = rec.CompanyName;
+                }
+                
                 if (rec.airplane != null)
                 {
                     if (rec.airplane.Runway != -1)
                     {
                         LVSchedue.Items[j].SubItems[0].Text = rec.airplane.Runway.ToString();
                     }
-                    if (!LVSchedue.Items[j].SubItems[1].Text.Equals(rec.AirplaneName))
-                    {
-                        LVSchedue.Items[j].SubItems[1].Text = rec.AirplaneName;
-                        if (rec.dir == Direction.Landing)
-                            LVSchedue.Items[j].SubItems[5].Text = "Посадка";
-                        else
-                            LVSchedue.Items[j].SubItems[5].Text = "Взлет";
-
-                        switch (rec.airType)
-                        {
-                            case AirType.Cargo:
-                                LVSchedue.Items[j].SubItems[6].Text = "Грузовой";
-                                break;
-                            case AirType.Jet:
-                                LVSchedue.Items[j].SubItems[6].Text = "Бизнес-джет";
-                                break;
-                            case AirType.Passenger:
-                                LVSchedue.Items[j].SubItems[6].Text = "Пассажирский";
-                                break;
-                        }
-                        LVSchedue.Items[j].SubItems[7].Text = rec.CompanyName;
-                    }
+                    
                     switch (rec.airplane.state)
                     {
                         case State.AirWaiting:
@@ -664,38 +695,44 @@ namespace Airoport
                         case State.TakingOff:
                             LVSchedue.Items[j].SubItems[2].Text = statutes[3];
                             break;
-                        case State.SittingDown:
+                        case State.Landing:
                             LVSchedue.Items[j].SubItems[2].Text = statutes[4];
                             break;
-                        default:
+                        case State.Done:
                             LVSchedue.Items[j].SubItems[2].Text = statutes[5];
-                            break;
+                             break;
                     }
                 }
+
                 if (rec.TimeReal != -1)
                 {
+                    if (LVSchedue.Items[j].SubItems[3].Text.Equals(ToTimeFormat(rec.TimeReal))) continue;
+                    LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
+                    LVSchedue.Items[j].SubItems[4].ForeColor = Color.Black; 
                     LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeReal);
-                    LVSchedue.Items[j].SubItems[4].Text = (ToTimeFormat(rec.TimeReal - rec.TimeSchedue));
+                    LVSchedue.Items[j].SubItems[4].Text = ToTimeFormat(rec.TimeReal - Math.Min(rec.TimeEvent, rec.TimeSchedue));
                 }
                 else if (exp.CurrentTime >= rec.TimeEvent)
-                {                    
+                {
                     LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeEvent);
-                    LVSchedue.Items[j].SubItems[4].Text = (ToTimeFormat(0));
+                    LVSchedue.Items[j].SubItems[3].ForeColor = Color.Red;
+                    LVSchedue.Items[j].SubItems[4].ForeColor = Color.Red;
+                   LVSchedue.Items[j].SubItems[4].Text = ToTimeFormat(exp.CurrentTime - Math.Min(rec.TimeEvent, rec.TimeSchedue));
                 }
                 else if (exp.CurrentTime > rec.TimeSchedue)
                 {
                     LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeSchedue);
                     LVSchedue.Items[j].SubItems[3].ForeColor = Color.Red;
-                    LVSchedue.Items[j].SubItems[4].Text = (ToTimeFormat(exp.CurrentTime -rec.TimeSchedue));
+                    LVSchedue.Items[j].SubItems[4].Text = ToTimeFormat(exp.CurrentTime - rec.TimeSchedue);
+                    LVSchedue.Items[j].SubItems[4].ForeColor = Color.Red;
                 }
                 else
                 {
                     LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeSchedue);
-                    LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
+                   // LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
+                    //LVSchedue.Items[j].SubItems[4].ForeColor = Color.Black;
                     LVSchedue.Items[j].SubItems[4].Text = (ToTimeFormat(0));
-
                 }
-                j++;
             }
         }
         string ToTimeFormat(int time)
@@ -705,7 +742,7 @@ namespace Airoport
             {
                 res += "0";
             }
-            res += (time / 60).ToString() + ":";
+            res += ((time / 60)%24).ToString() + ":";
             if ((time % 60) < 10)
             {
                 res += "0";

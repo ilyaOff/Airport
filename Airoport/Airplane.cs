@@ -8,7 +8,7 @@ namespace Airoport
 {
     public enum AirType { Cargo, Passenger, Jet }
     public enum State { Waiting, RunwayIn, TakingOff,
-                        AirWaiting, SittingDown, RunwayOut, Done}
+                        AirWaiting, Landing, RunwayOut, Done}
     
     class Airplane
     {
@@ -61,11 +61,11 @@ namespace Airoport
         {
             if (Runway == -1)
             {
-                Runway = runway;
+                Runway = runway+1;
                 SummonerRequest.ServiceStarted(CurrentTime);
                 if(state == State.AirWaiting)
                 {
-                    state = State.SittingDown;
+                    state = State.Landing;
                     CurrentTime = this.MoveTime;
                 }
                 else//state == State.Waiting
@@ -100,7 +100,7 @@ namespace Airoport
                             state = State.Done;
                             break;
 
-                        case State.SittingDown:
+                        case State.Landing:
                             state = State.RunwayOut;
                             CurrentTime = TimeMoveOnRunway;
                             break;

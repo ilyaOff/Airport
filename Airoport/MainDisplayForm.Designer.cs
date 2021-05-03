@@ -45,6 +45,10 @@
             this.chAirplane = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Delay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chDirection = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chTypeAirplane = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chCompanyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chCountRequestDone = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.nUDStep = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
@@ -69,10 +73,6 @@
             this.gbStatistic = new System.Windows.Forms.GroupBox();
             this.tbDoneRequest = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.chCompanyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chDirection = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chTypeAirplane = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Delay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pRunwayMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chCountRequestDone)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDStep)).BeginInit();
@@ -116,6 +116,7 @@
             // 
             // LVSchedue
             // 
+            this.LVSchedue.AllowColumnReorder = true;
             this.LVSchedue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.LVSchedue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -127,6 +128,7 @@
             this.chDirection,
             this.chTypeAirplane,
             this.chCompanyName});
+            this.LVSchedue.FullRowSelect = true;
             this.LVSchedue.HideSelection = false;
             this.LVSchedue.Location = new System.Drawing.Point(15, 242);
             this.LVSchedue.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -155,6 +157,24 @@
             // 
             this.chTime.Text = "Время";
             this.chTime.Width = 45;
+            // 
+            // Delay
+            // 
+            this.Delay.DisplayIndex = 7;
+            this.Delay.Text = "Задержка";
+            // 
+            // chDirection
+            // 
+            this.chDirection.Text = "Направление";
+            // 
+            // chTypeAirplane
+            // 
+            this.chTypeAirplane.Text = "Тип самолёта";
+            // 
+            // chCompanyName
+            // 
+            this.chCompanyName.DisplayIndex = 4;
+            this.chCompanyName.Text = "Компания";
             // 
             // chCountRequestDone
             // 
@@ -388,6 +408,7 @@
             // 
             this.tbCurrentTime.Location = new System.Drawing.Point(357, 12);
             this.tbCurrentTime.Name = "tbCurrentTime";
+            this.tbCurrentTime.ReadOnly = true;
             this.tbCurrentTime.Size = new System.Drawing.Size(73, 22);
             this.tbCurrentTime.TabIndex = 32;
             this.tbCurrentTime.Text = "Время";
@@ -431,24 +452,6 @@
             this.label7.Size = new System.Drawing.Size(226, 17);
             this.label7.TabIndex = 36;
             this.label7.Text = "Количество обслужанных заявок";
-            // 
-            // chCompanyName
-            // 
-            this.chCompanyName.DisplayIndex = 4;
-            this.chCompanyName.Text = "Компания";
-            // 
-            // chDirection
-            // 
-            this.chDirection.Text = "Направление";
-            // 
-            // chTypeAirplane
-            // 
-            this.chTypeAirplane.Text = "Тип самолёта";
-            // 
-            // Delay
-            // 
-            this.Delay.DisplayIndex = 7;
-            this.Delay.Text = "Задержка";
             // 
             // MainDisplayForm
             // 

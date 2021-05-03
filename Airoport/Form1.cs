@@ -19,23 +19,26 @@ namespace Airoport
         }
 
         private void bStart_Click(object sender, EventArgs e)
-        {            
-            
+        {
+            nUDCountRunways.Value = Math.Max(nUDCountRunways.Value, nUDCountRunways.Minimum);
+            nUDCountLandingRunways.Value = Math.Min(nUDCountLandingRunways.Value, nUDCountLandingRunways.Maximum);
         }
 
         private void nUDCountRunway_ValueChanged(object sender, EventArgs e)
         {
-            nUDCountLandingRunways.Maximum = nUDCountRunway.Value - 1;
+            nUDCountLandingRunways.Maximum = nUDCountRunways.Value - 1;
         }
 
         private void cbSepRunway_CheckedChanged(object sender, EventArgs e)
         {
             nUDCountLandingRunways.Enabled = cbSepRunway.Checked;
+            lSepRunway1.Enabled = cbSepRunway.Checked;
+            lSepRunway2.Enabled = cbSepRunway.Checked;
         }
 
         private void nUDCountLandingRunways_ValueChanged(object sender, EventArgs e)
         {
-            //if()
+            nUDCountRunways.Minimum = nUDCountLandingRunways.Value + 1;
         }
     }
 }
