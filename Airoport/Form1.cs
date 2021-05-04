@@ -34,11 +34,14 @@ namespace Airoport
             nUDCountLandingRunways.Enabled = cbSepRunway.Checked;
             lSepRunway1.Enabled = cbSepRunway.Checked;
             lSepRunway2.Enabled = cbSepRunway.Checked;
+            if(!cbSepRunway.Checked)
+                nUDCountRunways.Minimum = 2;
         }
 
         private void nUDCountLandingRunways_ValueChanged(object sender, EventArgs e)
         {
-            nUDCountRunways.Minimum = nUDCountLandingRunways.Value + 1;
+            if(cbSepRunway.Checked)
+                nUDCountRunways.Minimum = nUDCountLandingRunways.Value + 1;
         }
     }
 }

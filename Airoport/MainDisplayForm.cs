@@ -19,7 +19,7 @@ namespace Airoport
         List<PictureBox> airWaitingPlanes = null;
         int N;
         string[] statutes = new string[]
-        {                
+        {
                 "Ожидание",//начала события
                 "В очереди",
                 "Подготовка",//полосы
@@ -34,7 +34,7 @@ namespace Airoport
         int countLanding = 0;
         public MainDisplayForm()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void MainDisplayForm_Load(object sender, EventArgs e)
@@ -43,29 +43,30 @@ namespace Airoport
             airWaitingPlanes = new List<PictureBox>();
             NewExperiment();
         }
- 
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (exp.Tick() || exp.airport.schedue.requests.Count() == (countTakeOff + countLanding))
+            if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countTakeOff + countLanding))
             {
                 ShedueRefresh();
                 timer1.Enabled = false;
                 System.Windows.Forms.MessageBox.Show("Моделирование завершено");
             }
             else
+            {
                 NextStepDraw();
+            }
         }
 
         private void bNextStep_Click(object sender, EventArgs e)
-        {            
-            for (int i = 0; i < exp.TimeStep; i++)
+        {
+            //for (int i = 0; i < exp.TimeStep; i++)
             {
-                if (exp.Tick() || exp.airport.schedue.requests.Count() == (countTakeOff + countLanding))
+                if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countTakeOff + countLanding))
                 {
                     ShedueRefresh();
                     timer1.Enabled = false;
                     System.Windows.Forms.MessageBox.Show("Моделирование завершено");
-                    break;
                 }
                 NextStepDraw();
             }
@@ -74,14 +75,11 @@ namespace Airoport
         private void bEnd_Click(object sender, EventArgs e)
         {
             timer1.Enabled = false;
-            while(!exp.Tick() || exp.airport.schedue.requests.Count() == (countTakeOff + countLanding))
-            {
-                NextStepDraw();//для перерисовки графики и данных
-            }
-            ShedueRefresh();
-            System.Windows.Forms.MessageBox.Show("Моделирование завершено"); 
+            exp.ToEnd();
+            NextStepDraw();            
+            System.Windows.Forms.MessageBox.Show("Моделирование завершено");
         }
-               
+
         private void bPause_Click(object sender, EventArgs e)
         {
             timer1.Enabled = !timer1.Enabled;
@@ -240,6 +238,9 @@ namespace Airoport
             chAvgRunwayWork.Series[0].Points.Clear();
             chDelay.Series[0].Points.Clear();
             chDelay.Series[1].Points.Clear();
+            chDelay.Series[0].Points.AddXY(0, 0);
+            chDelay.Series[1].Points.AddXY(0, 0);
+
             chDelay.ChartAreas[0].AxisY.Maximum = 10;
             chCountRequestDone.Series[0].Points.Clear();
             chCountRequestDone.Series[1].Points.Clear();
@@ -254,7 +255,7 @@ namespace Airoport
                 LVSchedue.Items[j].SubItems.Add(statutes[0]);
                 LVSchedue.Items[j].SubItems.Add(ToTimeFormat(rec.TimeSchedue));
                 LVSchedue.Items[j].SubItems.Add(ToTimeFormat(0));
-                if(rec.dir == Direction.Landing)
+                if (rec.dir == Direction.Landing)
                     LVSchedue.Items[j].SubItems.Add("Посадка");
                 else
                     LVSchedue.Items[j].SubItems.Add("Взлет");
@@ -291,7 +292,7 @@ namespace Airoport
             ch.Top = 30 + runwayIntervalPosition * number;
         }
 
-        void NextStepDraw()
+        void NextTickDraw()
         {
             //Текущее время
             tbCurrentTime.Text = ToTimeFormat(exp.CurrentTime);
@@ -310,8 +311,8 @@ namespace Airoport
             if (exp.airport.LandingQueue.Count != 0)
             {
                 pl = exp.airport.LandingQueue.Peek();
-                maxLanding = Math.Max(0, pl.CurrentTime);                
-            }            
+                maxLanding = Math.Max(0, pl.CurrentTime);
+            }
             if (exp.airport.TakeoffQueue.Count != 0)
             {
                 pl = exp.airport.TakeoffQueue.Peek();
@@ -324,7 +325,7 @@ namespace Airoport
             chDelay.ChartAreas[0].AxisX.Minimum = Math.Max(0, exp.CurrentTime - 60);
             chDelay.ChartAreas[0].AxisX.Maximum = exp.CurrentTime;
             chDelay.ChartAreas[0].AxisY.Maximum = Math.Max(chDelay.ChartAreas[0].AxisY.Maximum, Math.Max(maxTakeoff, maxLanding));
-            
+
             tbDelay.Text = Math.Max(maxTakeoff, maxLanding).ToString();
 
             //отрисовать графику
@@ -344,7 +345,7 @@ namespace Airoport
             {
                 countTakeOff += (int)chRunways[i].Series[0].Points.Last().YValues[0];
             }
-            
+
             for (int i = 0; i < N; i++)
             {
                 countLanding += (int)chRunways[i].Series[1].Points.Last().YValues[0];
@@ -361,11 +362,117 @@ namespace Airoport
             for (int i = 0; i < N; i++)
             {
                 if (countLanding + countTakeOff == 0) break;
-                chAvgRunwayWork.Series[0].Points.Add(100*(chRunways[i].Series[0].Points.Last().YValues[0]
-                    + chRunways[i].Series[1].Points.Last().YValues[0])/(countTakeOff+countLanding));
+                chAvgRunwayWork.Series[0].Points.Add(100 * (chRunways[i].Series[0].Points.Last().YValues[0]
+                    + chRunways[i].Series[1].Points.Last().YValues[0]) / (countTakeOff + countLanding));
             }
             //расписание
             ShedueRefresh();
+        }
+
+        void NextStepDraw()
+        {
+            //Текущее время
+            tbCurrentTime.Text = ToTimeFormat(exp.CurrentTime);
+            //длина очередей
+            tbLandingQueueLength.Text = exp.airport.LandingQueue.Count.ToString();
+            tbTakeOffQueueLength.Text = exp.airport.TakeoffQueue.Count.ToString();
+
+            //расписание
+            ShedueRefresh();
+
+            //максимальная задержка
+            int maxTakeoff = 0, maxLanding = 0;
+            Airplane pl = null;
+            if (exp.airport.LandingQueue.Count != 0)
+            {
+                pl = exp.airport.LandingQueue.Peek();
+                maxLanding = Math.Max(0, pl.CurrentTime);
+            }
+            if (exp.airport.TakeoffQueue.Count != 0)
+            {
+                pl = exp.airport.TakeoffQueue.Peek();
+                maxTakeoff = Math.Max(0, pl.CurrentTime);
+            }
+
+            tbDelay.Text = Math.Max(maxTakeoff, maxLanding).ToString();
+            
+            //график задержки 
+            DrawChartDelay();
+
+            //отрисовать графику
+            //Самолёты на полосе
+            DrawAirplaneOnRunway();
+            //самолеты в воздушной очереди
+            DrawAirplaneInAir();
+        }
+        int starti = 0;
+        void DrawChartDelay()
+        {
+            for (int i = 1; i <= exp.TimeStep; i++)
+            {
+                chDelay.Series[0].Points.AddXY(exp.CurrentTime - exp.TimeStep + i, 0);
+                chDelay.Series[1].Points.AddXY(exp.CurrentTime - exp.TimeStep + i, 0);
+            }
+            while (chDelay.Series[1].Points.Count > 61)
+            {
+                chDelay.Series[1].Points.RemoveAt(0);
+            }
+            while (chDelay.Series[0].Points.Count > 61)
+            {
+                chDelay.Series[0].Points.RemoveAt(0);
+            }
+
+            int maxTakeoff = 0, maxLanding = 0;
+            int delay, time, minTime;
+            Series series;
+            Request req;
+            minTime = Math.Max(0, exp.CurrentTime - 60);
+            for (int i = starti; i < exp.airport.schedue.requests.Count; i++)
+            {
+                req = exp.airport.schedue.requests[i];
+                if (req.TimeReal != -1)
+                {
+                    delay = req.TimeReal - req.TimeEvent;
+                    if (delay == 0 || req.TimeReal < minTime)
+                    {
+                        starti = i + 1;
+                        continue;
+                    }
+                }
+                else
+                {
+                    delay = exp.CurrentTime - req.TimeEvent;
+                    
+                }
+                
+                time = req.TimeEvent;
+                //считанное время должно помещаться в границы нашего графика
+                if (time >= exp.CurrentTime /*|| delay < 0*/)
+                    break;
+
+                if (req.dir == Direction.Takeoff)
+                {
+                    series = chDelay.Series[0];
+                    maxTakeoff = Math.Max(maxTakeoff, delay);
+                }
+                else
+                {
+                    series = chDelay.Series[1];
+                    maxLanding = Math.Max(maxLanding, delay);
+                }
+                
+                 for (int j = Math.Max(1, minTime- time); j <= delay; j++)
+                 {
+                     series.Points[time + j  - minTime].YValues[0] = 
+                         Math.Max(j, series.Points[ time + j - minTime].YValues[0]);
+                 }
+
+            }
+            
+            chDelay.ChartAreas[0].AxisX.Minimum = Math.Max(0, exp.CurrentTime - 60);
+            chDelay.ChartAreas[0].AxisX.Maximum = exp.CurrentTime;
+            chDelay.ChartAreas[0].AxisY.Maximum = Math.Max(chDelay.ChartAreas[0].AxisY.Maximum, Math.Max(maxTakeoff, maxLanding));
+            chDelay.ChartAreas[0].RecalculateAxesScale();
         }
         void DrawAirplaneOnRunway()
         {
@@ -378,148 +485,74 @@ namespace Airoport
             int runwayUp = pRunway0.Location.X + pRunway0.Size.Width * 3 / 4;
             for (int i = 0; i < N; i++)
             {
-                pl = exp.airport.runway[i].tmpAirplane;
-                hpl = planes[i].Size.Height;
-                wpl = planes[i].Size.Width;
-                //середина текущей посадочной полосы (высота)
-                //H = runwayLocation.Y + runwayIntervalPosition * i + runwaySize.Height / 2;
-                H = pRunways[i].Top + pRunways[i].Size.Height / 2;
-                if (planes[i].Visible)
+                pl = exp.airport.runway[i].tmpAirplane;                
+                if (pl != null)
                 {
-                    if (pl != null)
+                    planes[i].Visible = true;
+                    switch (pl.Type)
                     {
-                        if (pl.CurrentTime == 0)
-                        {
-                            //Устанавливаем изображение самолета в нужную позицию, поворачиваем при необходимости
-                            switch (pl.state)
-                            {
-                                case State.RunwayIn://-> State.TakeOff                                    
-                                    //planes[i].BackColor = Color.FromArgb(0, 255, 0);
-                                    planes[i].Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                                    planes[i].Size = planes[i].Image.Size;
-                                    planes[i].Refresh();
-
-                                    hpl = planes[i].Size.Height;
-                                    wpl = planes[i].Size.Width;
-                                    planes[i].Top = H - hpl / 2;
-                                    planes[i].Left = pRunways[i].Left - wpl / 2;
-                                    break;
-
-                                case State.Landing://-> State.RunwayOut                                    
-                                    planes[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                                    planes[i].Size = planes[i].Image.Size;
-                                    //planes[i].BackColor = Color.FromArgb(255, 255, 0);
-                                    planes[i].Refresh();
-
-                                    hpl = planes[i].Size.Height;
-                                    wpl = planes[i].Size.Width;
-                                    planes[i].Top = H - hpl;
-                                    planes[i].Left = runwayUp - wpl / 2;
-                                    break;
-                                case State.RunwayOut:
-                                    //самолёт завершил перемещение, но не перешел в состояние Done
-                                    //исправление поворота картинки
-                                    planes[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                                    planes[i].Visible = false;
-                                    NewDoneRequest(i, pl.SummonerRequest.dir);
-                                    break;
-                                case State.TakingOff:
-                                    //самолёт завершил перемещение, но не перешел в состояние Done
-                                    //исправление поворота картинки                                   
-                                    planes[i].Visible = false;
-                                    NewDoneRequest(i, pl.SummonerRequest.dir);
-                                    break;
-                                default:
-                                    //самолёт завершил перемещение, но не перешел в состояние Done
-                                    planes[i].Visible = false;
-                                    //MessageBox.Show(pl.Name + " " + pl.state.ToString());
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            //двигаем самолёт по полосе, согласно его состоянию
-                            switch (pl.state)
-                            {
-                                case State.RunwayIn:
-                                    planes[i].Top = H - (H0 * (pl.CurrentTime)) / Airplane.TimeMoveOnRunway;
-                                    planes[i].Left = runwayDown - wpl / 2;
-                                    //planes[i].BackColor = Color.FromArgb(255, 0, 0);
-                                    break;
-                                case State.RunwayOut:
-                                    //planes[i].BackColor = Color.FromArgb(255, 255, 0);
-
-                                    planes[i].Top = -hpl - H0 + H + (H0 * (pl.CurrentTime)) / Airplane.TimeMoveOnRunway;
-                                    planes[i].Left = runwayUp - wpl / 2;
-                                    break;
-                                case State.TakingOff:
-                                    //planes[i].BackColor = Color.FromArgb(0, 255, 0);
-
-                                    planes[i].Top = H - hpl / 2;
-                                    planes[i].Left = pRunways[i].Left - wpl / 2
-                                             + pRunways[i].Size.Width - (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
-                                    break;
-                                case State.Landing:
-                                   // planes[i].BackColor = Color.FromArgb(0, 0, 0);
-
-                                    planes[i].Top = H - hpl / 2;
-                                    planes[i].Left = pRunways[i].Left - wpl
-                                            + (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
-                                    break;
-                            }
-                            planes[i].Refresh();
-                        }
+                        case AirType.Cargo:
+                            planes[i].Image = global::Airoport.Properties.Resources.Грузовой;
+                            break;
+                        case AirType.Jet:
+                            planes[i].Image = global::Airoport.Properties.Resources.Бизнес_джет;
+                            break;
+                        case AirType.Passenger:
+                            planes[i].Image = global::Airoport.Properties.Resources.Пассажирский;
+                            break;
                     }
-                    else
+
+                    //Устанавливаем изображение самолета в нужную позицию, поворачиваем при необходимости
+                    switch (pl.state)
                     {
-                        //заявка обработана
-                        planes[i].Visible = false;                        
+                        case State.RunwayIn:
+                            planes[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                            planes[i].Size = planes[i].Image.Size;
+                            break;
+                        case State.RunwayOut:
+                            planes[i].Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                            planes[i].Size = planes[i].Image.Size;
+                            break;
+                        case State.TakingOff:                            
+                            planes[i].Size = planes[i].Image.Size;
+                            break;
+                        case State.Landing:
+                            planes[i].Image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                            planes[i].Size = planes[i].Image.Size;
+                            break;
                     }
+
+                    hpl = planes[i].Size.Height;
+                    wpl = planes[i].Size.Width;
+                    //середина текущей посадочной полосы (высота)
+                    H = pRunways[i].Top + pRunways[i].Size.Height / 2;
+                    //двигаем самолёт по полосе, согласно его состоянию
+                    switch (pl.state)
+                    {
+                        case State.RunwayIn:
+                            planes[i].Top = H - hpl/2 - (H0 * (pl.CurrentTime)) / Airplane.TimeMoveOnRunway;
+                            planes[i].Left = runwayDown - wpl / 2;
+                            break;
+                        case State.RunwayOut:
+                            planes[i].Top = -hpl/2 - H0 + H + (H0 * (pl.CurrentTime)) / Airplane.TimeMoveOnRunway;
+                            planes[i].Left = runwayUp - wpl / 2;
+                            break;
+                        case State.TakingOff:
+                            planes[i].Top = H - hpl / 2;
+                            planes[i].Left = pRunways[i].Left - wpl 
+                                        + pRunways[i].Size.Width - (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
+                            break;
+                        case State.Landing:
+                            planes[i].Top = H - hpl / 2;
+                            planes[i].Left = pRunways[i].Left - wpl + (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
+                            break;
+                    }                    
+                    planes[i].Refresh();                    
                 }
                 else
                 {
-                    if (pl != null)
-                    {
-                        planes[i].Visible = true;
-                        switch (pl.Type)
-                        {
-                            case AirType.Cargo:
-                                planes[i].Image = global::Airoport.Properties.Resources.Грузовой;
-                                break;
-                            case AirType.Jet:
-                                planes[i].Image = global::Airoport.Properties.Resources.Бизнес_джет;
-                                break;
-                            case AirType.Passenger:
-                                planes[i].Image = global::Airoport.Properties.Resources.Пассажирский;
-                                break;
-
-                        }
-
-                        switch (pl.state)
-                        {
-                            case State.RunwayIn:
-                                planes[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                                planes[i].Size = planes[i].Image.Size;
-                                //planes[i].BackColor = Color.FromArgb(255, 0, 0);
-
-                                wpl = planes[i].Size.Width;
-                                //hpl = planes[i].Size.Height;
-                                planes[i].Top = (H - H0);
-                                planes[i].Left = runwayDown - wpl / 2;
-                                break;
-                            case State.Landing:
-                                planes[i].Image.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                                planes[i].Size = planes[i].Image.Size;
-                                //planes[i].BackColor = Color.FromArgb(0, 0, 0);
-
-                                hpl = planes[i].Size.Height;
-                                wpl = planes[i].Size.Width;
-                                planes[i].Top = H - hpl / 2;
-                                planes[i].Left = pRunways[i].Left + pRunways[i].Size.Width - wpl;
-                                break;
-                        }
-                        planes[i].Refresh();
-                    }
+                    //заявка обработана
+                    planes[i].Visible = false;
                 }
             }
         }
@@ -699,6 +732,8 @@ namespace Airoport
                             LVSchedue.Items[j].SubItems[2].Text = statutes[4];
                             break;
                         case State.Done:
+                            LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
+                            LVSchedue.Items[j].SubItems[4].ForeColor = Color.Black;
                             LVSchedue.Items[j].SubItems[2].Text = statutes[5];
                              break;
                     }
@@ -714,22 +749,22 @@ namespace Airoport
                 }
                 else if (exp.CurrentTime >= rec.TimeEvent)
                 {
-                    LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeEvent);
                     LVSchedue.Items[j].SubItems[3].ForeColor = Color.Red;
                     LVSchedue.Items[j].SubItems[4].ForeColor = Color.Red;
-                   LVSchedue.Items[j].SubItems[4].Text = ToTimeFormat(exp.CurrentTime - Math.Min(rec.TimeEvent, rec.TimeSchedue));
+                    LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeEvent);
+                    LVSchedue.Items[j].SubItems[4].Text = ToTimeFormat(exp.CurrentTime - Math.Min(rec.TimeEvent, rec.TimeSchedue));
                 }
                 else if (exp.CurrentTime > rec.TimeSchedue)
                 {
-                    LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeSchedue);
                     LVSchedue.Items[j].SubItems[3].ForeColor = Color.Red;
-                    LVSchedue.Items[j].SubItems[4].Text = ToTimeFormat(exp.CurrentTime - rec.TimeSchedue);
                     LVSchedue.Items[j].SubItems[4].ForeColor = Color.Red;
+                    LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeSchedue);
+                    LVSchedue.Items[j].SubItems[4].Text = ToTimeFormat(exp.CurrentTime - rec.TimeSchedue);
                 }
                 else
                 {
                     LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeSchedue);
-                   // LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
+                    //LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
                     //LVSchedue.Items[j].SubItems[4].ForeColor = Color.Black;
                     LVSchedue.Items[j].SubItems[4].Text = (ToTimeFormat(0));
                 }
@@ -748,6 +783,13 @@ namespace Airoport
                 res += "0";
             }
             res += (time % 60).ToString();
+            return res;
+        }
+
+        int TimeToInt(string time)
+        {
+            string[] str = time.Split(':');
+            int res = int.Parse(str[0]) * 60 + int.Parse(str[1]);
             return res;
         }
     }

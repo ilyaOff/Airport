@@ -11,7 +11,7 @@ namespace Airoport
         
         int StopTime = 24 * 60;//конец моделирования
         public int TimeStep { get; set; } = 5;
-        public int CurrentTime { get; private set; } = -1;
+        public int CurrentTime { get; private set; } = 0;//чтобы обработать первую заявку
         //int StartTime;
        // int DelayMin, DelayMax;
 
@@ -43,31 +43,32 @@ namespace Airoport
                // && CurrentTime >= airport.schedue.requests.Last().TimeReal + Airplane.TimeMoveOnRunway*2
                // && airport.TakeoffQueue.Count == 0 && airport.LandingQueue.Count == 0))            
             {
-
                 return true;
             }
             else
-            {
-                CurrentTime++;
+            {              
                 airport.Tick(CurrentTime);
+                CurrentTime++;
                 return false;
             }
             
         }
 
-        public void NextStep()
+        public bool NextStep()
         {
             for (int i = 0; i < TimeStep; i++)
             {
-                if (Tick()) break;
-            }            
+                if (Tick()) return true;
+            }
+            return false;
         }
-        public void ToEnd()
+        public bool ToEnd()
         {
             while (CurrentTime < 24 * 60)
             {
                 if (Tick()) break;
             }
+            return true;
         }
     }
 }

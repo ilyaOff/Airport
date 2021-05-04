@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pRunwayMap = new System.Windows.Forms.Panel();
             this.pRunway0 = new System.Windows.Forms.Panel();
             this.pAirQueue = new System.Windows.Forms.Panel();
@@ -178,24 +178,24 @@
             // 
             // chCountRequestDone
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chCountRequestDone.ChartAreas.Add(chartArea1);
+            chartArea4.Name = "ChartArea1";
+            this.chCountRequestDone.ChartAreas.Add(chartArea4);
             this.chCountRequestDone.Location = new System.Drawing.Point(6, 40);
             this.chCountRequestDone.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chCountRequestDone.Name = "chCountRequestDone";
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Color = System.Drawing.Color.Red;
-            series1.Name = "SeriesTakeOff";
-            series1.YValuesPerPoint = 6;
-            series2.BorderWidth = 3;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.Blue;
-            series2.Name = "SeriesLanding";
-            this.chCountRequestDone.Series.Add(series1);
-            this.chCountRequestDone.Series.Add(series2);
+            series6.BorderWidth = 3;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.Color = System.Drawing.Color.Red;
+            series6.Name = "SeriesTakeOff";
+            series6.YValuesPerPoint = 6;
+            series7.BorderWidth = 3;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Color = System.Drawing.Color.Blue;
+            series7.Name = "SeriesLanding";
+            this.chCountRequestDone.Series.Add(series6);
+            this.chCountRequestDone.Series.Add(series7);
             this.chCountRequestDone.Size = new System.Drawing.Size(240, 170);
             this.chCountRequestDone.TabIndex = 4;
             this.chCountRequestDone.Text = "chart2";
@@ -209,7 +209,7 @@
             0,
             0});
             this.nUDStep.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             0});
@@ -307,24 +307,24 @@
             // 
             // chDelay
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chDelay.ChartAreas.Add(chartArea2);
+            chartArea5.Name = "ChartArea1";
+            this.chDelay.ChartAreas.Add(chartArea5);
             this.chDelay.Location = new System.Drawing.Point(252, 40);
             this.chDelay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chDelay.Name = "chDelay";
-            series3.BorderWidth = 3;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.Red;
-            series3.IsVisibleInLegend = false;
-            series3.Name = "SeriesTakeOff";
-            series4.BorderWidth = 3;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Color = System.Drawing.Color.Blue;
-            series4.Name = "SeriesLanding";
-            this.chDelay.Series.Add(series3);
-            this.chDelay.Series.Add(series4);
+            series8.BorderWidth = 3;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series8.Color = System.Drawing.Color.Red;
+            series8.IsVisibleInLegend = false;
+            series8.Name = "SeriesTakeOff";
+            series9.BorderWidth = 3;
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series9.Color = System.Drawing.Color.Blue;
+            series9.Name = "SeriesLanding";
+            this.chDelay.Series.Add(series8);
+            this.chDelay.Series.Add(series9);
             this.chDelay.Size = new System.Drawing.Size(240, 170);
             this.chDelay.TabIndex = 26;
             this.chDelay.Text = "chart1";
@@ -340,14 +340,14 @@
             // 
             // chAvgRunwayWork
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chAvgRunwayWork.ChartAreas.Add(chartArea3);
+            chartArea6.Name = "ChartArea1";
+            this.chAvgRunwayWork.ChartAreas.Add(chartArea6);
             this.chAvgRunwayWork.Location = new System.Drawing.Point(498, 40);
             this.chAvgRunwayWork.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chAvgRunwayWork.Name = "chAvgRunwayWork";
-            series5.ChartArea = "ChartArea1";
-            series5.Name = "Series1";
-            this.chAvgRunwayWork.Series.Add(series5);
+            series10.ChartArea = "ChartArea1";
+            series10.Name = "Series1";
+            this.chAvgRunwayWork.Series.Add(series10);
             this.chAvgRunwayWork.Size = new System.Drawing.Size(240, 170);
             this.chAvgRunwayWork.TabIndex = 28;
             this.chAvgRunwayWork.Text = "Средняя занятость полос";
