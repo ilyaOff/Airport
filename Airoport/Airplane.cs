@@ -12,27 +12,25 @@ namespace Airoport
     
     class Airplane
     {
-        
+        public static int TimeMoveOnRunway = 5;
+
         public string Name {  get; private set; }
         public string CompanyName { get; private set; }
 
         public AirType Type { get; private set; }
         public State state { get; private set; }
-
-        public int Runway { get; private set; } = -1;
-        public Request SummonerRequest { get; private set; }
-        Airport airport;
-
-        public static int TimeMoveOnRunway = 5;
         public int MoveTime { get; private set; }
         public int CurrentTime { get; private set; }
+        public int Runway { get; private set; } = -1;
+        public Request SummonerRequest { get; private set; }
+       
+
         public Airplane(string name, string CompanyName, AirType type, 
                         Direction dir,  Request request, Airport airport)
         {
             this.Name = name;
             this.CompanyName = CompanyName;
-            this.Type = type;
-            this.airport = airport;
+            this.Type = type;           
 
             SummonerRequest = request;
         
@@ -110,9 +108,9 @@ namespace Airoport
                             break;
                         default: return;
                     }
-                }                
+                }
                 CurrentTime--;//теперь осталось ждать столько минут                
-            }            
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Airoport
         public Form1()
         {
             InitializeComponent();
-            dtpStartTime.CustomFormat = "hh:mm";
+            dtpStartTime.CustomFormat = "HH:mm";
         }
 
         private void bStart_Click(object sender, EventArgs e)
@@ -24,10 +24,7 @@ namespace Airoport
             nUDCountLandingRunways.Value = Math.Min(nUDCountLandingRunways.Value, nUDCountLandingRunways.Maximum);
         }
 
-        private void nUDCountRunway_ValueChanged(object sender, EventArgs e)
-        {
-            nUDCountLandingRunways.Maximum = nUDCountRunways.Value - 1;
-        }
+        
 
         private void cbSepRunway_CheckedChanged(object sender, EventArgs e)
         {
@@ -37,11 +34,30 @@ namespace Airoport
             if(!cbSepRunway.Checked)
                 nUDCountRunways.Minimum = 2;
         }
-
+        private void nUDCountRunway_ValueChanged(object sender, EventArgs e)
+        {
+            nUDCountLandingRunways.Maximum = nUDCountRunways.Value - 1;
+        }
         private void nUDCountLandingRunways_ValueChanged(object sender, EventArgs e)
         {
             if(cbSepRunway.Checked)
                 nUDCountRunways.Minimum = nUDCountLandingRunways.Value + 1;
+        }
+
+        private void nUDDelayMax_ValueChanged(object sender, EventArgs e)
+        {
+            if(nUDDelayMin.Value > nUDDelayMax.Value)
+            {
+                nUDDelayMin.Value = nUDDelayMax.Value;
+            }
+        }
+
+        private void nUDDelayMin_ValueChanged(object sender, EventArgs e)
+        {
+            if (nUDDelayMax.Value  < nUDDelayMin.Value)
+            {
+                nUDDelayMax.Value = nUDDelayMin.Value;
+            }
         }
     }
 }

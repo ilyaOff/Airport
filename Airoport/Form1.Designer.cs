@@ -182,6 +182,7 @@
             0,
             0,
             -2147483648});
+            this.nUDDelayMin.ValueChanged += new System.EventHandler(this.nUDDelayMin_ValueChanged);
             // 
             // nUDDelayMax
             // 
@@ -199,6 +200,7 @@
             0,
             0,
             0});
+            this.nUDDelayMax.ValueChanged += new System.EventHandler(this.nUDDelayMax_ValueChanged);
             // 
             // label6
             // 

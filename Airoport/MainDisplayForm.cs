@@ -33,6 +33,7 @@ namespace Airoport
         int countDoneRequestsTakeOff = 0;
         int countDoneRequestsLanding = 0;
         int chartDelayIStart = 0;
+        int startTime = 0;
         public MainDisplayForm()
         {
             InitializeComponent();
@@ -109,9 +110,10 @@ namespace Airoport
                 return;
             }
             N = (int)f.nUDCountRunways.Value;
+
+            startTime = f.dtpStartTime.Value.Hour * 60 + f.dtpStartTime.Value.Minute;
             //создание эксперимента
-            exp = new Experiment((int)nUDStep.Value,
-                f.dtpStartTime.Value.Hour * 60 + f.dtpStartTime.Value.Minute,
+            exp = new Experiment((int)nUDStep.Value,startTime,
                 f.cbSepRunway.Checked, N, (int)f.nUDCountLandingRunways.Value,
                 (int)f.nUDDelayMin.Value, (int)f.nUDDelayMax.Value,
                 (int)f.nUDTimeInterval.Value, f.tbShedule.Text);
@@ -300,7 +302,7 @@ namespace Airoport
         void NextStepDraw()
         {
             //Текущее время
-            tbCurrentTime.Text = ToTimeFormat(exp.CurrentTime);
+            tbCurrentTime.Text = ToTimeFormat( exp.CurrentTime);
             //длина очередей
             tbLandingQueueLength.Text = exp.airport.LandingQueue.Count.ToString();
             tbTakeOffQueueLength.Text = exp.airport.TakeoffQueue.Count.ToString();
@@ -348,23 +350,16 @@ namespace Airoport
         private void TotalDoneRequests()
         {
             int timestep;
-            if (chCountRequestDone.Series[0].Points.Count != 0 &&
-                    (chCountRequestDone.Series[0].Points.Last().XValue < exp.CurrentTime - 60
-                    || exp.CurrentTime == 24 * 60))
             {
-                chCountRequestDone.Series[0].Points.Clear();
-                chCountRequestDone.Series[1].Points.Clear();
-
-                for (int i = -60; i <= 0; i++)
+                int i = -exp.TimeStep;
+                timestep = -exp.TimeStep;
+                if (chCountRequestDone.Series[0].Points.Count > 0
+                    && exp.CurrentTime - (int)chCountRequestDone.Series[0].Points.Last().XValue < exp.TimeStep)
                 {
-                    chCountRequestDone.Series[0].Points.AddXY(exp.CurrentTime + i, 0);
-                    chCountRequestDone.Series[1].Points.AddXY(exp.CurrentTime + i, 0);
+                    timestep = i = -(exp.CurrentTime - (int)chCountRequestDone.Series[0].Points.Last().XValue);
                 }
-                timestep = -61;
-            }
-            else
-            {
-                for (int i = -exp.TimeStep; i < 0 ; i++)
+
+                for (; i < 0 ; i++)
                 {
                     chCountRequestDone.Series[0].Points.AddXY(exp.CurrentTime+1 + i, 0);
                     chCountRequestDone.Series[1].Points.AddXY(exp.CurrentTime+1 + i, 0);
@@ -375,7 +370,7 @@ namespace Airoport
                     chCountRequestDone.Series[0].Points.RemoveAt(0);
                     chCountRequestDone.Series[1].Points.RemoveAt(0);
                 }
-                timestep = -exp.TimeStep;
+                
             }
             countDoneRequestsTakeOff = 0;
             countDoneRequestsLanding = 0;
@@ -423,39 +418,25 @@ namespace Airoport
         }
 
         void DrawChartDelay()
-        {
-            if (chDelay.Series[0].Points.Last().XValue < exp.CurrentTime - 60
-                /*|| exp.CurrentTime == 24*60*/)
+        {            
+            int k = 1;
+            //когда надо сделать меньше шага
+            if (exp.CurrentTime - (int)chDelay.Series[0].Points.Last().XValue < exp.TimeStep)
+                k = exp.TimeStep - ( exp.CurrentTime - (int)chDelay.Series[0].Points.Last().XValue );              
+            for (; k <= exp.TimeStep; k++)
             {
-                chDelay.Series[0].Points.Clear();
-                chDelay.Series[1].Points.Clear();
-
-                for (int i = -60; i <= 0; i++)
-                {
-                    chDelay.Series[0].Points.AddXY(exp.CurrentTime + i, 0);
-                    chDelay.Series[1].Points.AddXY(exp.CurrentTime + i, 0);
-                }
+                chDelay.Series[0].Points.AddXY(exp.CurrentTime - exp.TimeStep + k, 0);
+                chDelay.Series[1].Points.AddXY(exp.CurrentTime - exp.TimeStep + k, 0);
             }
-            else
+            while (chDelay.Series[1].Points.Count > 61)
             {
-                int i = 1;
-                //когда надо сделать меньше шага
-                if (exp.CurrentTime - (int)chDelay.Series[0].Points.Last().XValue < exp.TimeStep)
-                    i = exp.TimeStep - ( exp.CurrentTime - (int)chDelay.Series[0].Points.Last().XValue );              
-                for (; i <= exp.TimeStep; i++)
-                {
-                    chDelay.Series[0].Points.AddXY(exp.CurrentTime - exp.TimeStep + i, 0);
-                    chDelay.Series[1].Points.AddXY(exp.CurrentTime - exp.TimeStep + i, 0);
-                }
-                while (chDelay.Series[1].Points.Count > 61)
-                {
-                    chDelay.Series[1].Points.RemoveAt(0);
-                }
-                while (chDelay.Series[0].Points.Count > 61)
-                {
-                    chDelay.Series[0].Points.RemoveAt(0);
-                }
+                chDelay.Series[1].Points.RemoveAt(0);
             }
+            while (chDelay.Series[0].Points.Count > 61)
+            {
+                chDelay.Series[0].Points.RemoveAt(0);
+            }
+            
             int maxTakeoff = 0, maxLanding = 0;
             int delay, time, minTime;
             Series series;
@@ -467,9 +448,12 @@ namespace Airoport
                 if (req.TimeReal != -1)
                 {
                     delay = req.TimeReal - req.TimeEvent;
+                    
                     if (delay == 0 || req.TimeReal < minTime)
                     {
-                        chartDelayIStart = i + 1;
+                        chartDelayIStart++;/*обязательно только такая форма, а не i+1,
+                        так как на момент выполнения расписание не отсортировано 
+                        (мб появился самолёт, который только распределили на полосу*/
                         continue;
                     }
                 }
@@ -494,7 +478,7 @@ namespace Airoport
                     maxLanding = Math.Max(maxLanding, delay);
                 }
                 
-                 for (int j = Math.Max(1, minTime- time); j <= delay; j++)
+                 for (int j = Math.Max(1, minTime- time); j <= delay && time + j - minTime < series.Points.Count; j++)
                  {
                      series.Points[time + j  - minTime].YValues[0] = 
                          Math.Max(j, series.Points[ time + j - minTime].YValues[0]);

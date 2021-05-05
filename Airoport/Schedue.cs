@@ -22,6 +22,12 @@ namespace Airoport
             requests = new List<Request>();
             //StartTime - для создания списка 
             TextFileCreateSchedue(fileName, StartTime, DelayMin, DelayMax);
+            Request swap;
+            while ((swap = requests.First()).TimeSchedue >= 24 * 60)
+            {
+                requests.RemoveAt(0);
+                requests.Add(swap);
+            }
 
         }
         public void Tick(int WorldTime, Airport airport)
@@ -46,9 +52,9 @@ namespace Airoport
                     {
                         Request req = requests[i];
                         requests.RemoveAt(i);
-                        requests.Insert(i + k, req);
-                        StartRequest++;
+                        requests.Insert(i + k, req);                       
                     }
+                    StartRequest++;
                 }
                 else if (requests[i].TimeEvent == WorldTime)
                 {
@@ -138,9 +144,13 @@ namespace Airoport
                         {
                             airType = AirType.Jet;
                         }
-
+                        if (time < StartTime)
+                            time += 24 * 60;
+                       
+                       
                         timeEvent = time + (int)Math.Round(GenerateNormalDistribution(a, sigm));
-                        timeEvent = timeEvent >= 0 ? timeEvent : -timeEvent;
+                        timeEvent = timeEvent >= StartTime ? timeEvent : 2*StartTime - timeEvent;
+                        
                         requests.Add(new Request(time, airplineName, companyName, dir, airType, timeEvent));
                     }
                 }

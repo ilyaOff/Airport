@@ -28,12 +28,13 @@ namespace Airoport
         {
             this.TimeStep = TimeStep;
             rnd = new Random();
+            CurrentTime += StartTime;
+            StopTime += StartTime;
             //длительность прохождения по общей полосе зависит от её длины, => от количества полос
-            Airplane.TimeMoveOnRunway = (CountRunway * 5) / 2;
-
+            Airplane.TimeMoveOnRunway = (CountRunway * 5) / 2;            
             airport = new Airport(ModSepRunway, CountRunway, CountLandingRunway,
                                 TimeInterval, DelayMin, DelayMax,
-                                fileName, rnd, CurrentTime);
+                                fileName, rnd, StartTime);
         }
        
         public bool Tick()
