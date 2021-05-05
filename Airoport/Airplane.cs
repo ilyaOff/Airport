@@ -61,7 +61,7 @@ namespace Airoport
         {
             if (Runway == -1)
             {
-                Runway = runway+1;
+                Runway = runway;
                 SummonerRequest.ServiceStarted(CurrentTime);
                 if(state == State.AirWaiting)
                 {

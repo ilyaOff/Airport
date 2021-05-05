@@ -30,8 +30,9 @@ namespace Airoport
         Size runwaySize = new Size(330, 90);
         Point runwayLocation = new Point(210, 47);
         int runwayIntervalPosition = 125;
-        int countTakeOff = 0;
-        int countLanding = 0;
+        int countDoneRequestsTakeOff = 0;
+        int countDoneRequestsLanding = 0;
+        int chartDelayIStart = 0;
         public MainDisplayForm()
         {
             InitializeComponent();
@@ -46,7 +47,7 @@ namespace Airoport
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countTakeOff + countLanding))
+            if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countDoneRequestsTakeOff + countDoneRequestsLanding))
             {
                 ShedueRefresh();
                 timer1.Enabled = false;
@@ -62,7 +63,7 @@ namespace Airoport
         {
             //for (int i = 0; i < exp.TimeStep; i++)
             {
-                if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countTakeOff + countLanding))
+                if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countDoneRequestsTakeOff + countDoneRequestsLanding))
                 {
                     ShedueRefresh();
                     timer1.Enabled = false;
@@ -201,6 +202,13 @@ namespace Airoport
 
                 PlaseRunway(pRunways[i], chRunways[i], i);
             }
+
+            //Event
+            foreach(Runway runway in exp.airport.runway)
+            {
+                runway.SuccessRequest += NewDoneRequest;
+            }
+            
             //Изображения самолетов
             if (planes == null)
             {
@@ -275,8 +283,8 @@ namespace Airoport
                 LVSchedue.Items[j].SubItems.Add(rec.CompanyName);
                 j++;
             }
-
-            countTakeOff = countLanding = 0;
+            chartDelayIStart = 0;
+            countDoneRequestsTakeOff = countDoneRequestsLanding = 0;
             bPause.Text = "Прервать моделирование";
             timer1.Enabled = true;
         }
@@ -290,83 +298,6 @@ namespace Airoport
             ch.Size = new Size(220, 120);
             ch.Left = runwayLocation.X + runwaySize.Width + 10;
             ch.Top = 30 + runwayIntervalPosition * number;
-        }
-
-        void NextTickDraw()
-        {
-            //Текущее время
-            tbCurrentTime.Text = ToTimeFormat(exp.CurrentTime);
-            //длина очередей
-            tbLandingQueueLength.Text = exp.airport.LandingQueue.Count.ToString();
-            tbTakeOffQueueLength.Text = exp.airport.TakeoffQueue.Count.ToString();
-            //Уменьшение количества точек
-            while (chDelay.Series[0].Points.Count > 60)
-            {
-                chDelay.Series[0].Points.RemoveAt(0);
-                chDelay.Series[1].Points.RemoveAt(0);
-            }
-            //максимальная задержка
-            int maxTakeoff = 0, maxLanding = 0;
-            Airplane pl = null;
-            if (exp.airport.LandingQueue.Count != 0)
-            {
-                pl = exp.airport.LandingQueue.Peek();
-                maxLanding = Math.Max(0, pl.CurrentTime);
-            }
-            if (exp.airport.TakeoffQueue.Count != 0)
-            {
-                pl = exp.airport.TakeoffQueue.Peek();
-                maxTakeoff = Math.Max(0, pl.CurrentTime);
-            }
-
-            chDelay.Series[1].Points.AddXY(exp.CurrentTime, maxLanding);
-            chDelay.Series[0].Points.AddXY(exp.CurrentTime, maxTakeoff);
-
-            chDelay.ChartAreas[0].AxisX.Minimum = Math.Max(0, exp.CurrentTime - 60);
-            chDelay.ChartAreas[0].AxisX.Maximum = exp.CurrentTime;
-            chDelay.ChartAreas[0].AxisY.Maximum = Math.Max(chDelay.ChartAreas[0].AxisY.Maximum, Math.Max(maxTakeoff, maxLanding));
-
-            tbDelay.Text = Math.Max(maxTakeoff, maxLanding).ToString();
-
-            //отрисовать графику
-            //Самолёты на полосе
-            DrawAirplaneOnRunway();
-            //самолеты в воздушной очереди
-            DrawAirplaneInAir();
-            //Общее число заявок
-            while (chCountRequestDone.Series[0].Points.Count > 60)
-            {
-                chCountRequestDone.Series[0].Points.RemoveAt(0);
-                chCountRequestDone.Series[1].Points.RemoveAt(0);
-            }
-            countTakeOff = 0;
-            countLanding = 0;
-            for (int i = 0; i < N; i++)
-            {
-                countTakeOff += (int)chRunways[i].Series[0].Points.Last().YValues[0];
-            }
-
-            for (int i = 0; i < N; i++)
-            {
-                countLanding += (int)chRunways[i].Series[1].Points.Last().YValues[0];
-            }
-            chCountRequestDone.Series[0].Points.AddXY(exp.CurrentTime, countTakeOff);
-            chCountRequestDone.Series[1].Points.AddXY(exp.CurrentTime, countLanding);
-
-            chCountRequestDone.ChartAreas[0].AxisY.Minimum = chCountRequestDone.Series[0].Points.First().YValues[0];
-            chCountRequestDone.ChartAreas[0].RecalculateAxesScale();
-            tbDoneRequest.Text = (countTakeOff + countLanding).ToString();
-
-            //средняя занятость полос
-            chAvgRunwayWork.Series[0].Points.Clear();
-            for (int i = 0; i < N; i++)
-            {
-                if (countLanding + countTakeOff == 0) break;
-                chAvgRunwayWork.Series[0].Points.Add(100 * (chRunways[i].Series[0].Points.Last().YValues[0]
-                    + chRunways[i].Series[1].Points.Last().YValues[0]) / (countTakeOff + countLanding));
-            }
-            //расписание
-            ShedueRefresh();
         }
 
         void NextStepDraw()
@@ -395,17 +326,84 @@ namespace Airoport
             }
 
             tbDelay.Text = Math.Max(maxTakeoff, maxLanding).ToString();
-            
+
             //график задержки 
             DrawChartDelay();
 
-            //отрисовать графику
             //Самолёты на полосе
             DrawAirplaneOnRunway();
             //самолеты в воздушной очереди
             DrawAirplaneInAir();
+
+            //Общее число заявок
+            TotalDoneRequests();
+
+            //средняя занятость полос
+            chAvgRunwayWork.Series[0].Points.Clear();
+            for (int i = 0; i < N; i++)
+            {
+                if (countDoneRequestsLanding + countDoneRequestsTakeOff == 0) break;
+                chAvgRunwayWork.Series[0].Points.Add(100 * (chRunways[i].Series[0].Points.Last().YValues[0]
+                    + chRunways[i].Series[1].Points.Last().YValues[0]) / (countDoneRequestsTakeOff + countDoneRequestsLanding));
+            }
         }
-        int starti = 0;
+
+        private void TotalDoneRequests()
+        {
+            for (int i = -exp.TimeStep; i < 0; i++)
+            {
+                chCountRequestDone.Series[0].Points.AddXY(exp.CurrentTime+i,0);
+                chCountRequestDone.Series[1].Points.AddXY(exp.CurrentTime+i,0);
+            }
+            //chCountRequestDone.Series[1].Points.Last().YValues[0]
+            while (chCountRequestDone.Series[0].Points.Count > 61)
+            {
+                chCountRequestDone.Series[0].Points.RemoveAt(0);
+                chCountRequestDone.Series[1].Points.RemoveAt(0);
+            }
+            countDoneRequestsTakeOff = 0;
+            countDoneRequestsLanding = 0;
+            int countPointTakeOff = chCountRequestDone.Series[0].Points.Count;
+            int countPointLanding = chCountRequestDone.Series[1].Points.Count;
+
+            int tmpPointTakeOff ;
+            int tmpPointLanding;
+            double lastTakeOffValue;
+            double lastLandingValue;
+            for (int i = 0; i < N; i++)
+            {
+                tmpPointTakeOff = chRunways[i].Series[0].Points.Count-1;
+                tmpPointLanding = chRunways[i].Series[1].Points.Count-1;
+                for (int j =  0; j > -exp.TimeStep; j--)
+                {
+                    while(tmpPointTakeOff >= 0 && chRunways[i].Series[0].Points[tmpPointTakeOff].XValue > exp.CurrentTime + j)
+                    {
+                        tmpPointTakeOff--;
+                    }
+                    if (tmpPointTakeOff < 0) tmpPointTakeOff = 0;
+                    lastTakeOffValue = chRunways[i].Series[0].Points[tmpPointTakeOff].YValues[0];
+                    chCountRequestDone.Series[0].Points[countPointTakeOff-1+j].YValues[0] += lastTakeOffValue;
+                }
+
+                for (int j = 0; j > -exp.TimeStep; j--)
+                {
+                    while (tmpPointLanding >= 0 && chRunways[i].Series[1].Points[tmpPointLanding].XValue > exp.CurrentTime + j)
+                    {
+                        tmpPointLanding--;
+                    }
+                    if (tmpPointLanding < 0) tmpPointLanding = 0;
+                    lastLandingValue = chRunways[i].Series[1].Points[tmpPointLanding].YValues[0];
+                    chCountRequestDone.Series[1].Points[countPointLanding-1 + j].YValues[0] += lastLandingValue;
+                }
+                countDoneRequestsTakeOff += (int)chRunways[i].Series[0].Points.Last().YValues[0];
+                countDoneRequestsLanding += (int)chRunways[i].Series[1].Points.Last().YValues[0];
+            }
+
+            chCountRequestDone.ChartAreas[0].AxisY.Minimum = chCountRequestDone.Series[0].Points.First().YValues[0];
+            chCountRequestDone.ChartAreas[0].RecalculateAxesScale();
+            tbDoneRequest.Text = (countDoneRequestsTakeOff + countDoneRequestsLanding).ToString();
+        }
+
         void DrawChartDelay()
         {
             for (int i = 1; i <= exp.TimeStep; i++)
@@ -427,7 +425,7 @@ namespace Airoport
             Series series;
             Request req;
             minTime = Math.Max(0, exp.CurrentTime - 60);
-            for (int i = starti; i < exp.airport.schedue.requests.Count; i++)
+            for (int i = chartDelayIStart; i < exp.airport.schedue.requests.Count; i++)
             {
                 req = exp.airport.schedue.requests[i];
                 if (req.TimeReal != -1)
@@ -435,7 +433,7 @@ namespace Airoport
                     delay = req.TimeReal - req.TimeEvent;
                     if (delay == 0 || req.TimeReal < minTime)
                     {
-                        starti = i + 1;
+                        chartDelayIStart = i + 1;
                         continue;
                     }
                 }
@@ -713,7 +711,7 @@ namespace Airoport
                 {
                     if (rec.airplane.Runway != -1)
                     {
-                        LVSchedue.Items[j].SubItems[0].Text = rec.airplane.Runway.ToString();
+                        LVSchedue.Items[j].SubItems[0].Text = (rec.airplane.Runway+1).ToString();
                     }
                     
                     switch (rec.airplane.state)

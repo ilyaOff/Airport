@@ -14,7 +14,8 @@ namespace Airoport
         
         int TimeInterval, CurrentTimeInterval = 0;//минимальное время между взлетами/посадками 
         public Airplane tmpAirplane { get; private set; } = null;
-
+        public delegate void newDoneRequest(int numberRunway, Direction dir);
+        public event newDoneRequest SuccessRequest;
         public Runway(bool forTakeoff, bool forLanding, int TimeInterval)
         {
             this.forLanding = forLanding;
@@ -35,6 +36,9 @@ namespace Airoport
         
         public void Clear()//самолёт освобождает полосу
         {
+
+            if (SuccessRequest != null) 
+                SuccessRequest(tmpAirplane.Runway, tmpAirplane.SummonerRequest.dir);
             tmpAirplane = null;
             CurrentTimeInterval = TimeInterval;
         }
