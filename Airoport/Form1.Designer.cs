@@ -229,7 +229,7 @@
             0,
             0});
             this.nUDStep.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             0});
@@ -249,7 +249,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(150, 17);
             this.label8.TabIndex = 16;
-            this.label8.Text = "Шаг, от 5 до 30 минут";
+            this.label8.Text = "Шаг, от 1 до 30 минут";
             // 
             // bStart
             // 

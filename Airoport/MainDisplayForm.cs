@@ -51,10 +51,11 @@ namespace Airoport
             if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countDoneRequestsTakeOff + countDoneRequestsLanding))
             {
                 timer1.Enabled = false;
+                NextStepDraw();
                 System.Windows.Forms.MessageBox.Show("Моделирование завершено");
             }
-            NextStepDraw();
-            
+            else
+                NextStepDraw();            
         }
 
         private void bNextStep_Click(object sender, EventArgs e)
@@ -62,9 +63,11 @@ namespace Airoport
             if (exp.NextStep() || exp.airport.schedue.requests.Count() == (countDoneRequestsTakeOff + countDoneRequestsLanding))
             {                
                 timer1.Enabled = false;
+                NextStepDraw();
                 System.Windows.Forms.MessageBox.Show("Моделирование завершено");
             }
-            NextStepDraw();            
+            else
+                NextStepDraw();            
         }
 
         private void bEnd_Click(object sender, EventArgs e)
@@ -316,12 +319,12 @@ namespace Airoport
             if (exp.airport.LandingQueue.Count != 0)
             {
                 pl = exp.airport.LandingQueue.Peek();
-                maxLanding = Math.Max(0, pl.CurrentTime);
+                maxLanding = Math.Max(0, pl.Timer);
             }
             if (exp.airport.TakeoffQueue.Count != 0)
             {
                 pl = exp.airport.TakeoffQueue.Peek();
-                maxTakeoff = Math.Max(0, pl.CurrentTime);
+                maxTakeoff = Math.Max(0, pl.Timer);
             }
 
             tbDelay.Text = Math.Max(maxTakeoff, maxLanding).ToString();
@@ -422,7 +425,7 @@ namespace Airoport
             int k = 1;
             //когда надо сделать меньше шага
             if (exp.CurrentTime - (int)chDelay.Series[0].Points.Last().XValue < exp.TimeStep)
-                k = exp.TimeStep - ( exp.CurrentTime - (int)chDelay.Series[0].Points.Last().XValue );              
+                k = exp.TimeStep - ( exp.CurrentTime - (int)chDelay.Series[0].Points.Last().XValue )+1;              
             for (; k <= exp.TimeStep; k++)
             {
                 chDelay.Series[0].Points.AddXY(exp.CurrentTime - exp.TimeStep + k, 0);
@@ -546,21 +549,21 @@ namespace Airoport
                     switch (pl.state)
                     {
                         case State.RunwayIn:
-                            planes[i].Top = H - hpl/2 - (H0 * (pl.CurrentTime)) / Airplane.TimeMoveOnRunway;
+                            planes[i].Top = H - hpl/2 - (H0 * (pl.Timer)) / Airplane.TimeMoveOnRunway;
                             planes[i].Left = runwayDown - wpl / 2;
                             break;
                         case State.RunwayOut:
-                            planes[i].Top = -hpl/2 - H0 + H + (H0 * (pl.CurrentTime)) / Airplane.TimeMoveOnRunway;
+                            planes[i].Top = -hpl/2 - H0 + H + (H0 * (pl.Timer)) / Airplane.TimeMoveOnRunway;
                             planes[i].Left = runwayUp - wpl / 2;
                             break;
                         case State.TakingOff:
                             planes[i].Top = H - hpl / 2;
                             planes[i].Left = pRunways[i].Left - wpl 
-                                        + pRunways[i].Size.Width - (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
+                                        + pRunways[i].Size.Width - (pRunways[i].Size.Width * pl.Timer) / pl.MoveTime;
                             break;
                         case State.Landing:
                             planes[i].Top = H - hpl / 2;
-                            planes[i].Left = pRunways[i].Left - wpl + (pRunways[i].Size.Width * pl.CurrentTime) / pl.MoveTime;
+                            planes[i].Left = pRunways[i].Left - wpl + (pRunways[i].Size.Width * pl.Timer) / pl.MoveTime;
                             break;
                     }                    
                     planes[i].Refresh();                    
@@ -611,7 +614,7 @@ namespace Airoport
                         airWaitingPlanes[i].Image = global::Airoport.Properties.Resources.Пассажирский;
                         break;
                 }
-                tetta = Math.PI * (pl[i].CurrentTime / 12.0);
+                tetta = Math.PI * (pl[i].Timer / 12.0);
                 while(tetta > 2*Math.PI)
                 {
                     tetta -= 2 * Math.PI;
@@ -782,8 +785,8 @@ namespace Airoport
                 else
                 {
                     LVSchedue.Items[j].SubItems[3].Text = ToTimeFormat(rec.TimeSchedue);
-                    //LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
-                    //LVSchedue.Items[j].SubItems[4].ForeColor = Color.Black;
+                    LVSchedue.Items[j].SubItems[3].ForeColor = Color.Black;
+                    LVSchedue.Items[j].SubItems[4].ForeColor = Color.Black;
                     LVSchedue.Items[j].SubItems[4].Text = (ToTimeFormat(0));
                 }
             }

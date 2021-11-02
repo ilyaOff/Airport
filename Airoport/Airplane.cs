@@ -20,13 +20,13 @@ namespace Airoport
         public AirType Type { get; private set; }
         public State state { get; private set; }
         public int MoveTime { get; private set; }
-        public int CurrentTime { get; private set; }
+        public int Timer { get; private set; }
         public int Runway { get; private set; } = -1;
         public Request SummonerRequest { get; private set; }
        
 
         public Airplane(string name, string CompanyName, AirType type, 
-                        Direction dir,  Request request, Airport airport)
+                        Direction dir,  Request request)
         {
             this.Name = name;
             this.CompanyName = CompanyName;
@@ -43,7 +43,7 @@ namespace Airoport
             {
                 this.state = State.Waiting;               
             }
-            airport.NewAirplane(this);
+           
 
             switch (type)
             {
@@ -52,7 +52,7 @@ namespace Airoport
                 case AirType.Passenger: MoveTime = 4; break;
                 default:break;
             }
-            CurrentTime = 0;
+            Timer = 0;
         }
 
         public void SetRunway(int runway)//полосы
@@ -60,16 +60,16 @@ namespace Airoport
             if (Runway == -1)
             {
                 Runway = runway;
-                SummonerRequest.ServiceStarted(CurrentTime);
+                SummonerRequest.ServiceStarted(Timer);
                 if(state == State.AirWaiting)
                 {
                     state = State.Landing;
-                    CurrentTime = this.MoveTime;
+                    Timer = this.MoveTime;
                 }
                 else//state == State.Waiting
                 {
                     state = State.RunwayIn;
-                    CurrentTime = TimeMoveOnRunway;
+                    Timer = TimeMoveOnRunway;
                 }
             }
             else
@@ -80,18 +80,18 @@ namespace Airoport
         {
             if (state == State.AirWaiting || state == State.Waiting)
             {
-                CurrentTime++;//время ожидания в очереди
+                Timer++;//время ожидания в очереди
             }
             else
             {   
-                if (CurrentTime == 0)//действие закончилось
+                if (Timer == 0)//действие закончилось
                 {
                     switch (state)
                     {
                         //case State.Done: case State.AirWaiting: case State.Waiting: return;
                         case State.RunwayIn:
                             state = State.TakingOff;
-                            CurrentTime = MoveTime;
+                            Timer = MoveTime;
                             break;
 
                         case State.TakingOff:
@@ -100,7 +100,7 @@ namespace Airoport
 
                         case State.Landing:
                             state = State.RunwayOut;
-                            CurrentTime = TimeMoveOnRunway;
+                            Timer = TimeMoveOnRunway;
                             break;
 
                         case State.RunwayOut:
@@ -109,7 +109,7 @@ namespace Airoport
                         default: return;
                     }
                 }
-                CurrentTime--;//теперь осталось ждать столько минут                
+                Timer--;//теперь осталось ждать столько минут                
             }
         }
     }

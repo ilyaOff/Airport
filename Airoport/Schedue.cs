@@ -22,11 +22,14 @@ namespace Airoport
             requests = new List<Request>();
             //StartTime - для создания списка 
             TextFileCreateSchedue(fileName, StartTime, DelayMin, DelayMax);
-            Request swap;
-            while ((swap = requests.First()).TimeSchedue >= 24 * 60)
+            if (requests.Count() != 0)
             {
-                requests.RemoveAt(0);
-                requests.Add(swap);
+                Request swap;
+                while ((swap = requests.First()).TimeSchedue >= 24 * 60)
+                {
+                    requests.RemoveAt(0);
+                    requests.Add(swap);
+                }
             }
 
         }

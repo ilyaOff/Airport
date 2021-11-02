@@ -65,7 +65,7 @@ namespace Airoport
         }
         public bool ToEnd()
         {
-            while (CurrentTime < 24 * 60)
+            while (CurrentTime < StopTime)
             {
                 if (Tick()) break;
             }

@@ -36,7 +36,6 @@ namespace Airoport
         
         public void Clear()//самолёт освобождает полосу
         {
-
             if (SuccessRequest != null) 
                 SuccessRequest(tmpAirplane.Runway, tmpAirplane.SummonerRequest.dir);
             tmpAirplane = null;

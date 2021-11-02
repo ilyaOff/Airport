@@ -41,7 +41,8 @@ namespace Airoport
             {
                 if (TimeEvent == WorldTime)
                 {
-                    airplane = new Airplane(AirplaneName, CompanyName, airType, dir, this, airport);
+                    airplane = new Airplane(AirplaneName, CompanyName, airType, dir, this);
+                    airport.NewAirplane(airplane);
                 }
             }
            /* будет делать аэропорт
